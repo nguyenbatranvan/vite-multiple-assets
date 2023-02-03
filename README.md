@@ -1,0 +1,1 @@
+# vite-multiple-assets
