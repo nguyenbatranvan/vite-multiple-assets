@@ -1,7 +1,8 @@
 import fs from "fs";
 import path from "path";
+import {PluginOption, ViteDevServer} from "vite";
 
-function getFiles(dir, files_) {
+function getFiles(dir, files_): string[] {
   files_ = files_ || [];
   const files = fs.readdirSync(dir);
   for (const i in files) {
@@ -15,14 +16,18 @@ function getFiles(dir, files_) {
   return files_;
 }
 
+interface IPropsFile {
+  name: string;
+  files: string[];
+}
 
-export default function Index(assets) {
+export default function DynamicPublicDirectory(assets: string[]): PluginOption {
   return {
     apply: 'serve',
-    configureServer(server) {
+    configureServer(server: ViteDevServer) {
       if (!assets || !assets.length)
         return
-      const fileObject = [];
+      const fileObject: IPropsFile[] = [];
       for (let i = 0; i < assets.length; i++) {
         const files = getFiles(path.join(process.cwd(), `/${assets[i]}`), []);
         // const fileStr = file.join(",");
