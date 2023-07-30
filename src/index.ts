@@ -46,7 +46,7 @@ export default function DynamicPublicDirectory(assets: string[]): PluginOption {
                 server.middlewares.use(async (req, res, next) => {
                     for (let i = 0; i < fileObject.length; i++) {
                         const file = path.join(process.cwd(), `${fileObject[i].name}/${req.originalUrl}`);
-                        if (fileObject[i].files.includes(file)) {
+                        if (fileObject[i].files.some(f => path.relative(f, file) === "")) {
                             res.setHeader("Cache-Control", "max-age=31536000, immutable");
                             res.setHeader("Content-Type", getContentTypeImage(file));
                             res.writeHead(200);
@@ -55,7 +55,6 @@ export default function DynamicPublicDirectory(assets: string[]): PluginOption {
                             break;
                         }
                     }
-                    // }
                     next();
                 });
             };
