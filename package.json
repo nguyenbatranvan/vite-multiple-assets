@@ -14,9 +14,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx lerna run dev",
-    "build": "npx lerna run build",
-    "publish": "tsup libs/index.ts --dts --format cjs,esm",
-    "prepublishOnly": "pnpm publish"
+    "build-example": "npx lerna run build",
+    "build": "tsup libs/index.ts --dts --format cjs,esm",
+    "prepublishOnly": "pnpm build"
   },
   "keywords": [
     "vite-multiple-assets",
