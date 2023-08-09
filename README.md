@@ -1,10 +1,8 @@
 # vite-multiple-assets
-`vite-multiple-assets` support vite to run with multiple directory assets in development environment.
+`vite-multiple-assets` support vite to run with multiple directory public directory.
 ### Feature
 - No copy file when run dev, help with no impact on performance when launching apps with vite
-> **Note**
-> This plugin only works in development environment, so when you build, you have to use another plugin to copy it into your build directory.
-> I have a suggestion for a plugin when building you can refer to it as ``vite-plugin-static-copy``
+- Support automatically copy files when running build
 
 ### Quick setup would be in the `vite.config.js`:
 
@@ -39,3 +37,4 @@ export default defineConfig({
     publicDir:["public","libs/assets","repo1/assets",...]
   })
 ```
+### Example
