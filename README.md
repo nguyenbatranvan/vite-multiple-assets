@@ -38,3 +38,4 @@ export default defineConfig({
   })
 ```
 ### Example
+[Detail](https://github.com/nguyenbatranvan/vite-multiple-assets/blob/main/packages/examples/react/vite.config.ts)
