@@ -1,6 +1,6 @@
 {
   "name": "vite-multiple-assets",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Multiple assets public directory for vite",
   "author": "Van nguyen ba tran",
   "license": "MIT",
@@ -15,6 +15,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx lerna run dev",
     "build-example": "npx lerna run build",
+    "preview": "npx lerna run preview",
     "build": "tsup libs/index.ts --dts --format cjs,esm",
     "prepublishOnly": "pnpm build"
   },
