@@ -41,6 +41,7 @@ const mimeTypes = {
     ".mp4": "video/mp4",
     ".webm": "video/webm",
     ".webp": "image/webp",
+    ".wgsl": "text/wgsl",
     ".ico": "image/x-icon",
     ".tiff": "image/tiff",
     ".gz": "application/gzip",
