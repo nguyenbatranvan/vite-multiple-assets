@@ -1,22 +1,12 @@
 import fs from "fs";
 import {ViteDevServer} from "vite";
 import path from "path";
+import {IMIME} from "./types";
+import mime from "mime-types";
+
 interface IPropsFile {
     name: string;
     files: string[];
-}
-function getFiles(dir, files_): string[] {
-    files_ = files_ || [];
-    const files = fs.readdirSync(dir);
-    for (const i in files) {
-        const name = dir + "/" + files[i];
-        if (fs.statSync(name).isDirectory()) {
-            getFiles(name, files_);
-        } else {
-            files_.push(name);
-        }
-    }
-    return files_;
 }
 
 const mimeTypes = {
@@ -46,10 +36,29 @@ const mimeTypes = {
     ".gz": "application/gzip",
     ".zip": "application/zip",
     ".rar": "application/x-rar-compressed",
-    ".7z": "application/x-7z-compressed",
+    ".7z": "application/x-7z-compressed"
 }
 
-export function ServerMiddleWare(server: ViteDevServer, assets: string[] = []) {
+function getFiles(dir, files_): string[] {
+    files_ = files_ || [];
+    const files = fs.readdirSync(dir);
+    for (const i in files) {
+        const name = dir + "/" + files[i];
+        if (fs.statSync(name).isDirectory()) {
+            getFiles(name, files_);
+        } else {
+            files_.push(name);
+        }
+    }
+    return files_;
+}
+
+function getContentType(file: string) {
+    return mime.lookup(file);
+}
+
+
+export function ServerMiddleWare(server: ViteDevServer, assets: string[] = [], types: IMIME) {
     if (!assets || !assets.length)
         return;
     const fileObject: IPropsFile[] = [];
@@ -60,6 +69,7 @@ export function ServerMiddleWare(server: ViteDevServer, assets: string[] = []) {
             files
         });
     }
+    let mergeMimeTypes = {...mimeTypes, ...types}
 
     return () => {
         server.middlewares.use(async (req, res, next) => {
@@ -68,7 +78,7 @@ export function ServerMiddleWare(server: ViteDevServer, assets: string[] = []) {
                 if (fileObject[i].files.some(f => path.relative(f, file) === "")) {
                     const extension = file.substring(file.lastIndexOf("."));
                     res.setHeader("Cache-Control", "max-age=31536000, immutable");
-                    res.setHeader("Content-Type", mimeTypes[extension]);
+                    res.setHeader("Content-Type", mergeMimeTypes[extension] || getContentType(file));
                     res.writeHead(200);
                     res.write(fs.readFileSync(path.join(process.cwd(), "/" + fileObject[i].name + req.originalUrl)));
                     res.end();

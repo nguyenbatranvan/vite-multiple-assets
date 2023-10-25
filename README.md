@@ -18,14 +18,61 @@ export default defineConfig({
 ### install
 ``npm i -D vite-multiple-assets``
 
+#### Config options
+
+- dirAssets: list of your static directories
+- mimeTypes: Add your extended content types, by default there will be the following content types
+
+```ts
+{
+    ".html": "text/html",
+    ".js": "text/javascript",
+    ".css": "text/css",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".gif": "image/gif",
+    ".svg": "image/svg+xml",
+    ".json": "application/json",
+    ".woff": "font/woff",
+    ".woff2": "font/woff2",
+    ".ttf": "font/ttf",
+    ".eot": "font/eot",
+    ".otf": "font/otf",
+    ".wasm": "application/wasm",
+    ".mjs": "text/javascript",
+    ".txt": "text/plain",
+    ".xml": "text/xml",
+    ".wgsl": "text/wgsl",
+    ".mp3": "audio/mpeg",
+    ".mp4": "video/mp4",
+    ".webm": "video/webm",
+    ".webp": "image/webp",
+    ".ico": "image/x-icon",
+    ".tiff": "image/tiff",
+    ".gz": "application/gzip",
+    ".zip": "application/zip",
+    ".rar": "application/x-rar-compressed",
+    ".7z": "application/x-7z-compressed"
+}
+```
+
+**Note:** In case the content type is not found, it will be automatically handled according to the ```mime-types``` library
+
+
 In `vite.config.ts`
 ```ts
 import DynamicPublicDirectory from "vite-multiple-assets";
 // same level as project root
 const dirAssets=["libs/assets","repo1/assets",...];
+
+// example
+const mimeTypes = {
+    '.acc':'application/acc'
+}
+
 export default defineConfig({
     plugins: [
-        DynamicPublicDirectory(dirAssets)
+        DynamicPublicDirectory(dirAssets,mimeTypes)
     ]
 })
 ```
