@@ -1,6 +1,6 @@
 {
   "name": "vite-multiple-assets",
-  "version": "1.2.3",
+  "version": "1.2.6",
   "description": "Multiple assets public directory for vite",
   "author": "Van nguyen ba tran",
   "license": "MIT",
@@ -10,13 +10,29 @@
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "module": "dist/index.mjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "module": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npx lerna run dev",
     "build-example": "npx lerna run build",
     "preview": "npx lerna run preview",
-    "build": "tsup libs/index.ts --dts --format cjs,esm",
+    "build": "rm -rf dist && tsup ./libs/index.ts --dts --format cjs,esm",
     "prepublishOnly": "pnpm build"
   },
   "keywords": [
@@ -31,10 +47,10 @@
     "lerna": "^7.1.4",
     "tsup": "^7.1.0",
     "typescript": "^5.1.6",
-    "vite": "^4.4.7",
-    "mime-types": "^2.1.35"
+    "vite": "^4.4.7"
   },
   "peerDependencies": {
-    "vite": ">=2.9.6"
+    "vite": ">=2.9.6",
+    "mime-types": "^2.1.35"
   }
 }

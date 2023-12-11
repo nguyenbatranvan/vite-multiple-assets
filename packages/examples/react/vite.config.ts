@@ -1,7 +1,6 @@
 import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react-swc'
-// @ts-ignore
-import DynamicPublicDirectory from "../../../libs";
+import DynamicPublicDirectory from "vite-multiple-assets";
 
 export default defineConfig({
     build: {
