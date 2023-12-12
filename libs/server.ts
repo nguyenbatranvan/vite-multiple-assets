@@ -78,11 +78,12 @@ export function ServerMiddleWare(server: ViteDevServer, assets: string[] = [], t
                 const file = path.join(process.cwd(), `${fileObject[i].name}/${req.originalUrl}`);
                 if (fileObject[i].files.some(f => path.relative(f, file) === "")) {
                     const extension = file.substring(file.lastIndexOf("."));
-                    res.setHeader("Cache-Control", "max-age=31536000, immutable");
-                    res.setHeader("Content-Type", mergeMimeTypes[extension] || getContentType(file));
-                    res.writeHead(200);
-                    res.write(fs.readFileSync(path.join(process.cwd(), "/" + fileObject[i].name + req.originalUrl)));
-                    res.end();
+                    res.addListener('pipe', () => {
+                        res.setHeader("Cache-Control", "max-age=31536000, immutable");
+                        res.setHeader("Content-Type", mergeMimeTypes[extension] || getContentType(file));
+                        res.write(fs.readFileSync(path.join(process.cwd() + "/" + fileObject[i].name + req.originalUrl)));
+                        res.end();
+                    })
                     break;
                 }
             }
