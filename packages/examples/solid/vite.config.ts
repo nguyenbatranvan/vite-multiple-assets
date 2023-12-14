@@ -5,5 +5,7 @@ import DynamicPublicDirectory from "../../../libs";
 export default defineConfig({
     plugins: [solid(),
 // @ts-ignore
-        DynamicPublicDirectory(["../../../shared-assets"])],
+        DynamicPublicDirectory(["../../../shared-assets"],{
+            ssr:true
+        })],
 });

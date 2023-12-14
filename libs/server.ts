@@ -1,8 +1,9 @@
 import fs from "fs";
-import {ViteDevServer} from "vite";
 import path from "path";
-import {IMIME} from "./types";
+import {IMIME, IParameterViteServe} from "./types";
 import mime from "mime-types";
+import http from "node:http";
+import {IncomingMessage} from "http";
 
 interface IPropsFile {
     name: string;
@@ -40,7 +41,7 @@ const mimeTypes = {
     ".7z": "application/x-7z-compressed"
 }
 
-function getFiles(dir, files_): string[] {
+function getFiles(dir: string, files_: string[]): string[] {
     files_ = files_ || [];
     const files = fs.readdirSync(dir);
     for (const i in files) {
@@ -58,8 +59,17 @@ function getContentType(file: string) {
     return mime.lookup(file);
 }
 
+function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, contentType: string, data: string) {
+    res.setHeader("Cache-Control", "max-age=31536000, immutable");
+    res.setHeader("Content-Type", contentType);
+    res.write(fs.readFileSync(data));
+    res.end();
+}
 
-export function ServerMiddleWare(server: ViteDevServer, assets: string[] = [], types: IMIME) {
+
+export function ServerMiddleWare(payload: IParameterViteServe) {
+    const {server, assets, options} = payload;
+    const {mimeTypes: types = {}, ssr} = options || {}
     if (!assets || !assets.length)
         return;
     const fileObject: IPropsFile[] = [];
@@ -78,12 +88,15 @@ export function ServerMiddleWare(server: ViteDevServer, assets: string[] = [], t
                 const file = path.join(process.cwd(), `${fileObject[i].name}/${req.originalUrl}`);
                 if (fileObject[i].files.some(f => path.relative(f, file) === "")) {
                     const extension = file.substring(file.lastIndexOf("."));
-                    res.addListener('pipe', () => {
-                        res.setHeader("Cache-Control", "max-age=31536000, immutable");
-                        res.setHeader("Content-Type", mergeMimeTypes[extension] || getContentType(file));
-                        res.write(fs.readFileSync(path.join(process.cwd() + "/" + fileObject[i].name + req.originalUrl)));
-                        res.end();
-                    })
+                    const contentType = mergeMimeTypes[extension] || getContentType(file)
+                    const data = path.join(process.cwd() + "/" + fileObject[i].name + req.originalUrl)
+                    if (ssr)
+                        res.addListener('pipe', () => {
+                            handleWriteToServe(res, req, contentType, data)
+                        })
+                    else {
+                        handleWriteToServe(res, req, contentType, data)
+                    }
                     break;
                 }
             }

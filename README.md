@@ -3,6 +3,7 @@
 ### Feature
 - No copy file when run dev, help with no impact on performance when launching apps with vite
 - Support automatically copy files when running build
+- Support SSR
 
 ### Quick setup would be in the `vite.config.js`:
 
@@ -22,6 +23,7 @@ export default defineConfig({
 
 - dirAssets: list of your static directories
 - mimeTypes: Add your extended content types, by default there will be the following content types
+- ssr: default is `false` support client side, using with Solid-js or framework support SSR please enable this flag to `true`
 
 ```ts
 {
@@ -72,7 +74,10 @@ const mimeTypes = {
 
 export default defineConfig({
     plugins: [
-        DynamicPublicDirectory(dirAssets,mimeTypes)
+        DynamicPublicDirectory(dirAssets,{
+            ssr:true,
+            mimeTypes
+        })
     ]
 })
 ```
