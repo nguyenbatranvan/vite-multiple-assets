@@ -27,7 +27,8 @@ export default defineConfig({
     },
     plugins: [
         react(),
-        // @ts-ignore
-        DynamicPublicDirectory(["../../../shared-assets"])
+        DynamicPublicDirectory(["../../../shared-assets"],{
+            ssr:false
+        })
     ],
 })

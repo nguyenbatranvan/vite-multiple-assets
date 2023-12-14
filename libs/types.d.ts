@@ -3,8 +3,8 @@ import {ViteDevServer} from "vite";
 export type IMIME = Record<string, string>;
 
 export interface IConfig {
-    mimeTypes: IMIME;
-    ssr: boolean;
+    mimeTypes?: IMIME;
+    ssr?: boolean;
 }
 
 export interface IParameterViteServe {
