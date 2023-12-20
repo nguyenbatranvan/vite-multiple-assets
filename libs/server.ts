@@ -59,11 +59,25 @@ function getContentType(file: string) {
     return mime.lookup(file);
 }
 
-function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, contentType: string, data: string) {
+function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, contentType: string, path: string) {
     res.setHeader("Cache-Control", "max-age=31536000, immutable");
     res.setHeader("Content-Type", contentType);
-    res.write(fs.readFileSync(data));
+    res.write(fs.readFileSync(path));
     res.end();
+}
+
+
+const postfixRE = /[?#].*$/s
+/**
+ * Get pure file url
+ * @param {string} url
+ * @example
+ * toFilePath('vite.svg?t=1703075066566') // return 'vite.svg'
+ * @returns {string} Returns file url
+ */
+function toFilePath(url: string = '') {
+    let filePath = url.replace(postfixRE, '')
+    return filePath
 }
 
 
@@ -85,17 +99,16 @@ export function ServerMiddleWare(payload: IParameterViteServe) {
     return () => {
         server.middlewares.use(async (req, res, next) => {
             for (let i = 0; i < fileObject.length; i++) {
-                const file = path.join(process.cwd(), `${fileObject[i].name}/${req.originalUrl}`);
+                const file = path.join(process.cwd(), `${fileObject[i].name}/${toFilePath(req.originalUrl)}`);
                 if (fileObject[i].files.some(f => path.relative(f, file) === "")) {
                     const extension = file.substring(file.lastIndexOf("."));
                     const contentType = mergeMimeTypes[extension] || getContentType(file)
-                    const data = path.join(process.cwd() + "/" + fileObject[i].name + req.originalUrl)
                     if (ssr)
                         res.addListener('pipe', () => {
-                            handleWriteToServe(res, req, contentType, data)
+                            handleWriteToServe(res, req, contentType, file)
                         })
                     else {
-                        handleWriteToServe(res, req, contentType, data)
+                        handleWriteToServe(res, req, contentType, file)
                     }
                     break;
                 }
