@@ -1,13 +1,17 @@
 {
   "name": "vite-multiple-assets",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "Multiple assets public directory for vite",
   "author": "Van nguyen ba tran",
   "license": "MIT",
+  "sideEffects": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/nguyenbatranvan/vite-multiple-assets"
   },
+  "files": [
+    "dist"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
