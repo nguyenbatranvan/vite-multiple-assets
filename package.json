@@ -4,7 +4,7 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
-    "dev": "lerna run dev --scope=react",
+    "dev": "npx lerna run dev --scope=react",
     "build": "lerna run --parallel build",
     "preview": "lerna run --parallel preview",
     "publish": "lerna run --parallel build-npm",
