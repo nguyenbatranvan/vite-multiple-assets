@@ -18,6 +18,7 @@
     "@types/node": "^20.12.8",
     "lerna": "^8.1.2",
     "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "vite": "^5.2.11",
+    "playwright": "^1.43.1"
   }
 }
