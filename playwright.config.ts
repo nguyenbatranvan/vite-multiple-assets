@@ -28,9 +28,6 @@ export default defineConfig<TestOptions>({
   reporter: "html",
   use: {
     baseURL: "http://localhost:3000",
-    launchOptions: {
-      args: ["--start-maximized"]
-    },
     headless: true,
     ignoreHTTPSErrors: true,
     screenshot: "only-on-failure",
