@@ -31,7 +31,7 @@ export default defineConfig<TestOptions>({
     launchOptions: {
       args: ["--start-maximized"]
     },
-    headless: false,
+    headless: true,
     ignoreHTTPSErrors: true,
     screenshot: "only-on-failure",
     video: "retain-on-failure",
