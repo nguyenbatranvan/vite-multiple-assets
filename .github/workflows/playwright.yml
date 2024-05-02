@@ -18,6 +18,8 @@ jobs:
       run: npm install
     - name: Install dependencies
       run: npm ci
+    - name: run example
+      run: npm run dev
     - name: Run Playwright tests
       run: npx playwright test
     - uses: actions/upload-artifact@v4
