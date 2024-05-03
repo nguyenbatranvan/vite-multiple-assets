@@ -1,6 +1,6 @@
 {
-  "name": "vite-multiple-assets",
-  "version": "1.2.10",
+  "name": "assets",
+  "version": "0.0.0",
   "license": "MIT",
   "sideEffects": false,
   "workspaces": [

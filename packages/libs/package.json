@@ -33,6 +33,7 @@
   },
   "scripts": {
     "build-npm": "rm -rf dist && tsup ./index.ts --dts --format cjs,esm",
+    "build": "rm -rf dist && tsup ./index.ts --dts --format cjs,esm",
     "prepublishOnly": "pnpm build"
   },
   "keywords": [
