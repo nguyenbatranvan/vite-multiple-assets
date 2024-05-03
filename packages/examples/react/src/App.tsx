@@ -14,7 +14,7 @@ function App() {
                     <img src={"/vite.svg"} className="logo" alt="Vite logo"/>
                 </a>
                 <a href="https://react.dev" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo"/>
+                    <img aria-label={"logo-assets"} src={reactLogo} className="logo react" alt="React logo"/>
                 </a>
             </div>
             <Button w={{

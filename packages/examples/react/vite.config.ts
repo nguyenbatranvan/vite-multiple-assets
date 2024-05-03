@@ -1,6 +1,6 @@
 import {defineConfig} from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import DynamicPublicDirectory from "../../../libs";
+import DynamicPublicDirectory from "vite-multiple-assets";
 
 export default defineConfig({
     build: {
@@ -27,8 +27,8 @@ export default defineConfig({
     },
     plugins: [
         react(),
-        DynamicPublicDirectory(["../../../shared-assets"],{
-            ssr:false
+        DynamicPublicDirectory(["../../../shared-assets"], {
+            ssr: false
         })
     ],
 })

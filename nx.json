@@ -1,0 +1,27 @@
+{
+  "targetDefaults": {
+    "dev": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "build": {
+      "dependsOn": []
+    },
+    "lint": {
+      "dependsOn": []
+    },
+    "preview": {
+      "dependsOn": []
+    },
+    "start": {
+      "dependsOn": []
+    },
+    "build-npm": {
+      "dependsOn": []
+    },
+    "prepublishOnly": {
+      "dependsOn": []
+    }
+  }
+}
