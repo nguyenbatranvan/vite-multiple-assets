@@ -1,5 +1,7 @@
 # vite-multiple-assets
 `vite-multiple-assets` support vite to run with multiple directory public directory.
+### Document
+[Visit website](https://nguyenbatranvan.github.io/vite-multiple-assets-doc/)
 ### Feature
 - No copy file when run dev, help with no impact on performance when launching apps with vite
 - Support automatically copy files when running build
