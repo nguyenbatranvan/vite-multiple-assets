@@ -22,12 +22,13 @@ export default defineConfig({
             }
         }
     },
+    root: __dirname,
     server: {
         port: 3000
     },
     plugins: [
         react(),
-        DynamicPublicDirectory(["../../../{shared-assets,}/**"], {
+        DynamicPublicDirectory(["../../../{\x01,shared-assets}/**"], {
             ssr: false,
         }) as PluginOption,
     ],
