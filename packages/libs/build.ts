@@ -2,8 +2,8 @@ import fs from "fs/promises";
 import type { NormalizedOutputOptions } from "rollup";
 import { isAbsolute, sep } from "path";
 import { join, relative, sep as posixSep } from "path/posix";
-import { matcher, scan } from "micromatch";
-import { glob } from "fast-glob";
+import mm from "micromatch";
+import fg from "fast-glob";
 import { FDst, IAssets, IConfig, IFilesMapper, IViteResolvedConfig } from "./types";
 
 // LINK https://nodejs.org/docs/latest/api/errors.html#common-system-errors
@@ -19,7 +19,7 @@ export enum ErrorCode {
 export function destinationResolver() {
     const list: Record<string, { 
         base: string;
-        isMatch: ReturnType<typeof matcher>; 
+        isMatch: ReturnType<typeof mm.matcher>; 
     }> = {};
 
     const resolve: FDst = ({
@@ -30,8 +30,8 @@ export function destinationResolver() {
             // FIXME: when IAssets extended, this identifier could collapse
             if (!(asset in list))
                 list[asset] = {
-                    base: scan(asset).base,
-                    isMatch: matcher(asset, {
+                    base: mm.scan(asset).base,
+                    isMatch: mm.matcher(asset, {
                         ignore,
                         ...opts
                     }),
@@ -63,7 +63,7 @@ export async function getFiles (
     writeBundleOptions?: NormalizedOutputOptions
 ) {
     files_ = files_ || [];
-    const files = await glob(files_, {
+    const files = await fg.glob(files_, {
         ignore: [],
         onlyFiles: true,
         markDirectories: true,
