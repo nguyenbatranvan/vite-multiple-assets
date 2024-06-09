@@ -20,7 +20,7 @@ export default function Root() {
       <Head>
         <Title>SolidStart - Bare</Title>
         <link rel="stylesheet"
-              href="./SteradianTRIAL-XLtIt.otf"/>
+              href="./shared-assets/SteradianTRIAL-XLtIt.otf"/>
         <Meta charset="utf-8" />
         <Meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
