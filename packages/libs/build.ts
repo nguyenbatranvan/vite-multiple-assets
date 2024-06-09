@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import type { NormalizedOutputOptions } from "rollup";
-import { isAbsolute, sep } from "path";
-import { join, resolve, relative, dirname, sep as posixSep } from "path/posix";
+import { isAbsolute, dirname, sep, join, resolve, } from "path";
+import { relative, sep as posixSep } from "path/posix"; // NOTE: use posix for relative transformation
 import mm from "micromatch";
 import fg from "fast-glob";
 import type { FDst, IAssets, IConfig, IFilesMapper, IViteResolvedConfig } from "./types";

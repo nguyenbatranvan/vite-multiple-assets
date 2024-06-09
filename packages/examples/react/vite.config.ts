@@ -23,6 +23,7 @@ export default defineConfig({
         }
     },
     root: __dirname,
+    publicDir: false,
     server: {
         port: 3000
     },

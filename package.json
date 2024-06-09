@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "npx lerna run dev --scope=react",
-    "build": "lerna run --parallel build",
+    "build": "lerna run --stream --parallel build",
     "preview": "lerna run --parallel preview",
     "publish": "lerna run --parallel build-npm",
     "e2e": "npx playwright test --ui"

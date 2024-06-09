@@ -33,7 +33,8 @@
   },
   "scripts": {
     "build-npm": "rm -rf dist && tsup ./index.ts --dts --format cjs,esm",
-    "build": "rm -rf dist && tsup ./index.ts --dts --format cjs,esm",
+    "build-npm-win32": "rmdir /S /Q dist && tsup ./index.ts --dts --format cjs,esm",
+    "build": "npm run build-npm",
     "prepublishOnly": "pnpm build"
   },
   "keywords": [
