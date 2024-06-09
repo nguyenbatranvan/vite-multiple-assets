@@ -60,7 +60,8 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
             // NOTE: remove first slash. url always forward slash.
             // NOTE: handle "%2Fetc/wwwroot" for absolute "/etc/wwwroot"
             // NOTE: handle "%2E%2E/%2E%2E/some/file.txt" for relative backward "../../some/file.txt"
-            const pathname = new URL(req.originalUrl ?? "").pathname.slice(1);
+
+            const pathname = new URL(req.originalUrl ?? "", `http://${req.headers.host}`).pathname.slice(1);
             let file = fileObject[pathname] ?? fileObject[decodeURIComponent(pathname)];
 
             if (file) {

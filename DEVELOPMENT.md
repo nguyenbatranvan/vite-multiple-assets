@@ -21,3 +21,9 @@
 - VSCode: use extension Comment Anchors
 - recommended to move to v2.0.0
 - https://stackoverflow.com/questions/1976007/what-characters-are-forbidden-in-windows-and-linux-directory-names
+
+**Current Issues:**
+
+- Performance on Server Rendering
+- File patterns is only `string[]`, planned so can have individual pattern to output files
+- `internalResolver` can overidden so a lot of filename and its situation can collapse

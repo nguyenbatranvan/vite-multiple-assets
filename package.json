@@ -8,7 +8,7 @@
     "packages/**"
   ],
   "scripts": {
-    "dev": "npx lerna run dev --scope=react",
+    "dev": "npx lerna run --stream dev --scope=react",
     "build": "lerna run --stream --parallel build",
     "preview": "lerna run --parallel preview",
     "publish": "lerna run --parallel build-npm",
