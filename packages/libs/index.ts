@@ -4,6 +4,7 @@ import {buildMiddleWare} from "./build";
 import type {IAssets, IConfig, IViteResolvedConfig} from "./types";
 import type { NormalizedOutputOptions } from "rollup";
 
+// FIXME: types of writeBuldeOptions is not match when developing in PNPM
 export function resolveInternalConfig({ opts, writeBundleOptions, viteConfig, force }: {
     opts: IConfig;
     writeBundleOptions?: NormalizedOutputOptions;
@@ -45,7 +46,9 @@ export default function DynamicPublicDirectory(assets: IAssets, opts: IConfig = 
             resolveInternalConfig({ opts, viteConfig });
         },
         async writeBundle(writeBundleOptions) {
+            // @ts-ignore
             resolveInternalConfig({ opts, viteConfig, writeBundleOptions });
+            // @ts-ignore
             buildMiddleWare(writeBundleOptions, assets, opts, viteConfig)
         },
         name: "dynamic assets",

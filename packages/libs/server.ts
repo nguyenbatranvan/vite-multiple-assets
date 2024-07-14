@@ -53,7 +53,7 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
     if (!assets || !assets.length)
         return;
     const fileObject = await getFiles(assets, payload.options, payload.viteConfig);
-    let mergeMimeTypes = {...mimeTypes, ...types}
+    let mergeMimeTypes: Record<string, string | undefined> = {...mimeTypes, ...types}
 
     return () => {
         server.middlewares.use(async (req, res, next) => {
@@ -66,7 +66,7 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
 
             if (file) {
                 const extension = file.substring(file.lastIndexOf("."));
-                const contentType = mergeMimeTypes[extension] || getContentType(file)
+                const contentType = mergeMimeTypes[extension] || getContentType(file) || (mergeMimeTypes[".html"] as string);
                 if (ssr)
                     res.addListener('pipe', () => {
                         handleWriteToServe(res, req, contentType, file!)
