@@ -1,7 +1,7 @@
 {
   "name": "vite-multiple-assets",
-  "version": "1.3.0",
-  "description": "Multiple assets public directory for vite",
+  "version": "1.3.1",
+  "description": "Multiple public asset directories for vite",
   "author": "Van nguyen ba tran",
   "license": "MIT",
   "sideEffects": false,

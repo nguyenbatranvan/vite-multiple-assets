@@ -111,7 +111,7 @@ export function ServerMiddleWare(payload: IParameterViteServe) {
                     else {
                         handleWriteToServe(res, req, contentType, file)
                     }
-                    break;
+                    return
                 }
             }
             next();

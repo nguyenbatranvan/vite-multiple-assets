@@ -1,5 +1,5 @@
 # vite-multiple-assets
-`vite-multiple-assets` support vite to run with multiple directory public directory.
+`vite-multiple-assets` add support for multiple public asset directories to vite (or astro).
 ### Document
 [Visit website](https://nguyenbatranvan.github.io/vite-multiple-assets-doc/)
 ### Feature
@@ -9,14 +9,14 @@
 
 ### Quick setup would be in the `vite.config.js`:
 
-* Default with vite's configuration you can only use 1 publicDir in `vite.config.ts`
+* By default, vite's configuration only allows you to specify 1 public directory, via publicDir in `vite.config.ts`
 ```ts
 export default defineConfig({
     // default is public folder
     publicDir:''
 })
 ```
-* With this plugin you can add multiple public folders
+* With this plugin you can add multiple public directories
 
 ### install
 ``npm i -D vite-multiple-assets``
@@ -89,30 +89,17 @@ export default defineConfig({
 })
 ```
 
-- Support Astro build (version 1.3.0 above):
+- Support Astro build (version 1.3.x above):
 ```javascript
-import {DynamicPublicDirectory, ServerMiddleWare} from "vite-multiple-assets";
+import {AstroIntegration} from "vite-multiple-assets";
 const assets = ["libs/assets", "repo1/assets", ...];
 export default defineConfig({
-    vite: {
-        plugins: [DynamicPublicDirectory(assets)]
-    },
     integrations: [
-        {
-            name: 'test-multiple',
-            hooks: {
-                'astro:server:setup': (op) => {
-                    ServerMiddleWare({
-                        server: op.server,
-                        assets
-                    })()
-                },
-            },
-        },
+        AstroIntegration(assets)
     ],
 });
 ```
-* With the above configuration will automatically add files in `public`, `libs/assets`, `repo1/assets` folders as static assets for your project, which can be understood as below:
+* The above configuration will automatically add files in `public`, `libs/assets`, `repo1/assets` folders as static assets for your project, which can be understood as below:
  ```ts
  export default defineConfig({
     // default is public folder
