@@ -68,6 +68,7 @@ function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, cont
 
 
 const postfixRE = /[?#].*$/s
+
 /**
  * Get pure file url
  * @param {string} url
@@ -82,7 +83,7 @@ function toFilePath(url: string = '') {
 
 
 export function ServerMiddleWare(payload: IParameterViteServe) {
-    const {server, assets, options} = payload;
+    const {server, assets, options = {}} = payload;
     const {mimeTypes: types = {}, ssr} = options || {}
     if (!assets || !assets.length)
         return;

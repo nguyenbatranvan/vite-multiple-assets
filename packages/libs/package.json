@@ -52,5 +52,6 @@
   "peerDependencies": {
     "mime-types": "^2.1.35",
     "vite": ">=2.9.6"
-  }
+  },
+  "gitHead": "1f7378ff8a5bc22252de6f3e9b1f38bee078a663"
 }

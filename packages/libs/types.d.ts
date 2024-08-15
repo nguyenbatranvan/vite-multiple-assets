@@ -10,5 +10,5 @@ export interface IConfig {
 export interface IParameterViteServe {
     server: ViteDevServer;
     assets: string[];
-    options: IConfig
+    options?: IConfig
 }
