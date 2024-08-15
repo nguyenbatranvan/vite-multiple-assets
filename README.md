@@ -65,31 +65,60 @@ export default defineConfig({
 
 In `vite.config.ts`
 ```ts
+-Before`1.3.0`
+
 import DynamicPublicDirectory from "vite-multiple-assets";
+
+-After`1.3.0`
+import {DynamicPublicDirectory} from "vite-multiple-assets";
 // same level as project root
-const dirAssets=["libs/assets","repo1/assets",...];
+const dirAssets = ["libs/assets", "repo1/assets", ...];
 
 // example
 const mimeTypes = {
-    '.acc':'application/acc'
+    '.acc': 'application/acc'
 }
 
 export default defineConfig({
     plugins: [
-        DynamicPublicDirectory(dirAssets,{
-            ssr:true,
+        DynamicPublicDirectory(dirAssets, {
+            ssr: true,
             mimeTypes
         })
     ]
 })
 ```
-* With the above configuration will automatically add files in `public`, `libs/assets`, `repo1/assets` folders as static assets for your project, which can be understood as below:
 
+- Support Astro build (version 1.3.0 above):
+```javascript
+import {DynamicPublicDirectory, ServerMiddleWare} from "vite-multiple-assets";
+const assets = ["libs/assets", "repo1/assets", ...];
+export default defineConfig({
+    vite: {
+        plugins: [DynamicPublicDirectory(assets)]
+    },
+    integrations: [
+        {
+            name: 'test-multiple',
+            hooks: {
+                'astro:server:setup': (op) => {
+                    ServerMiddleWare({
+                        server: op.server,
+                        assets
+                    })()
+                },
+            },
+        },
+    ],
+});
+```
+* With the above configuration will automatically add files in `public`, `libs/assets`, `repo1/assets` folders as static assets for your project, which can be understood as below:
  ```ts
  export default defineConfig({
     // default is public folder
     publicDir:["public","libs/assets","repo1/assets",...]
   })
 ```
+
 ### Example
 [Detail](https://github.com/nguyenbatranvan/vite-multiple-assets/blob/main/packages/examples/react/vite.config.ts)
