@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "npx lerna run dev --scope=react",
     "astro": "npx lerna run dev --scope=astro",
+    "solid": "npx lerna run dev --scope=solid",
     "build": "lerna run --parallel build",
     "preview": "lerna run --parallel preview",
     "publish": "lerna run --parallel build-npm",

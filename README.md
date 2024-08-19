@@ -65,11 +65,11 @@ export default defineConfig({
 
 In `vite.config.ts`
 ```ts
--Before`1.3.0`
+-Before `1.3.0`
 
 import DynamicPublicDirectory from "vite-multiple-assets";
 
--After`1.3.0`
+-After `1.3.0`
 import {DynamicPublicDirectory} from "vite-multiple-assets";
 // same level as project root
 const dirAssets = ["libs/assets", "repo1/assets", ...];
@@ -91,11 +91,11 @@ export default defineConfig({
 
 - Support Astro build (version 1.3.x above):
 ```javascript
-import {AstroIntegration} from "vite-multiple-assets";
+import {astroMultipleAssets} from "vite-multiple-assets";
 const assets = ["libs/assets", "repo1/assets", ...];
 export default defineConfig({
     integrations: [
-        AstroIntegration(assets)
+        astroMultipleAssets(assets)
     ],
 });
 ```
@@ -108,4 +108,6 @@ export default defineConfig({
 ```
 
 ### Example
-[Detail](https://github.com/nguyenbatranvan/vite-multiple-assets/blob/main/packages/examples/react/vite.config.ts)
+- [React](https://github.com/nguyenbatranvan/vite-multiple-assets/blob/main/packages/examples/react/vite.config.ts)
+- [Solid](https://github.com/nguyenbatranvan/vite-multiple-assets/blob/main/packages/examples/solid/vite.config.ts)
+- [Astro](https://github.com/nguyenbatranvan/vite-multiple-assets/blob/main/packages/examples/astro/astro.config.mjs)
