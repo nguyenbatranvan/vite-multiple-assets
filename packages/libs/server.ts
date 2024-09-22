@@ -66,7 +66,7 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
 
             if (file) {
                 const extension = file.substring(file.lastIndexOf("."));
-                const contentType = mergeMimeTypes[extension] || getContentType(file) || (mergeMimeTypes[".html"] as string);
+                const contentType = mergeMimeTypes[extension] || getContentType(file) || mergeMimeTypes[".html"] || (getContentType(".html") as string);
                 if (ssr)
                     res.addListener('pipe', () => {
                         handleWriteToServe(res, req, contentType, file!)

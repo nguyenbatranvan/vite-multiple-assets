@@ -16,6 +16,7 @@ export function resolveInternalConfig({ opts, writeBundleOptions, viteConfig, fo
 
     opts.ignore ??= [];
     opts.onlyFiles ??= true;
+    opts.onlyDirectories ??= false;
     opts.markDirectories ??= true;
     opts.dot ??= true;
 
