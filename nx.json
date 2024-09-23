@@ -18,7 +18,9 @@
       "dependsOn": []
     },
     "build-npm": {
-      "dependsOn": []
+      "dependsOn": [
+        "^dev"
+      ]
     },
     "prepublishOnly": {
       "dependsOn": []

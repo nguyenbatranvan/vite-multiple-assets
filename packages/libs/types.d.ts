@@ -83,5 +83,5 @@ export type IViteResolvedConfig = Parameters<IViteResolvedConfig1>[0];
 export interface IParameterViteServe {
     server: ViteDevServer;
     assets: string[];
-    options: IConfig
+    options?: IConfig
 }

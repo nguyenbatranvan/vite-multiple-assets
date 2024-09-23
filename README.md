@@ -1,5 +1,5 @@
 # vite-multiple-assets
-`vite-multiple-assets` support vite to run with multiple directory public directory.
+`vite-multiple-assets` add support for multiple public asset directories to vite (or astro).
 ### Document
 [Visit website](https://nguyenbatranvan.github.io/vite-multiple-assets-doc/)
 ### Feature
@@ -9,14 +9,14 @@
 
 ### Quick setup would be in the `vite.config.js`:
 
-* Default with vite's configuration you can only use 1 publicDir in `vite.config.ts`
+* By default, vite's configuration only allows you to specify 1 public directory, via publicDir in `vite.config.ts`
 ```ts
 export default defineConfig({
     // default is public folder
     publicDir:''
 })
 ```
-* With this plugin you can add multiple public folders
+* With this plugin you can add multiple public directories
 
 ### install
 ``npm i -D vite-multiple-assets``
@@ -65,31 +65,49 @@ export default defineConfig({
 
 In `vite.config.ts`
 ```ts
+-Before `1.3.0`
+
 import DynamicPublicDirectory from "vite-multiple-assets";
+
+-After `1.3.0`
+import {DynamicPublicDirectory} from "vite-multiple-assets";
 // same level as project root
-const dirAssets=["libs/assets","repo1/assets",...];
+const dirAssets = ["libs/assets", "repo1/assets", ...];
 
 // example
 const mimeTypes = {
-    '.acc':'application/acc'
+    '.acc': 'application/acc'
 }
 
 export default defineConfig({
     plugins: [
-        DynamicPublicDirectory(dirAssets,{
-            ssr:true,
+        DynamicPublicDirectory(dirAssets, {
+            ssr: true,
             mimeTypes
         })
     ]
 })
 ```
-* With the above configuration will automatically add files in `public`, `libs/assets`, `repo1/assets` folders as static assets for your project, which can be understood as below:
 
+- Support Astro build (version 1.3.x above):
+```javascript
+import {astroMultipleAssets} from "vite-multiple-assets";
+const assets = ["libs/assets", "repo1/assets", ...];
+export default defineConfig({
+    integrations: [
+        astroMultipleAssets(assets)
+    ],
+});
+```
+* The above configuration will automatically add files in `public`, `libs/assets`, `repo1/assets` folders as static assets for your project, which can be understood as below:
  ```ts
  export default defineConfig({
     // default is public folder
     publicDir:["public","libs/assets","repo1/assets",...]
   })
 ```
+
 ### Example
-[Detail](https://github.com/nguyenbatranvan/vite-multiple-assets/blob/main/packages/examples/react/vite.config.ts)
+- [React](https://github.com/nguyenbatranvan/vite-multiple-assets/blob/main/packages/examples/react/vite.config.ts)
+- [Solid](https://github.com/nguyenbatranvan/vite-multiple-assets/blob/main/packages/examples/solid/vite.config.ts)
+- [Astro](https://github.com/nguyenbatranvan/vite-multiple-assets/blob/main/packages/examples/astro/astro.config.mjs)

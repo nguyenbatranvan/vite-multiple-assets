@@ -1,5 +1,7 @@
 import type { PluginOption, ViteDevServer } from "vite";
 import {ServerMiddleWare} from "./server";
+import {DynamicPublicDirectory} from "./dynamicPublicDirectory";
+import {AstroIntegration} from "./astroIntegration";
 import {buildMiddleWare} from "./build";
 import type {IAssets, IConfig, IViteResolvedConfig} from "./types";
 import type { NormalizedOutputOptions } from "rollup";
@@ -54,4 +56,10 @@ export default function DynamicPublicDirectory(assets: IAssets, opts: IConfig = 
         },
         name: "dynamic assets",
     };
+}
+
+export {
+    DynamicPublicDirectory,
+    ServerMiddleWare,
+    AstroIntegration as astroMultipleAssets
 }

@@ -1,6 +1,7 @@
 import solid from "solid-start/vite";
 import { type PluginOption, defineConfig } from "vite";
-import DynamicPublicDirectory from "vite-multiple-assets";
+// import DynamicPublicDirectory from "vite-multiple-assets";
+import {DynamicPublicDirectory} from "vite-multiple-assets";
 
 export default defineConfig({
     root: __dirname,
