@@ -1,6 +1,5 @@
 import type { PluginOption, ViteDevServer } from "vite";
 import {ServerMiddleWare} from "./server";
-import {DynamicPublicDirectory} from "./dynamicPublicDirectory";
 import {AstroIntegration} from "./astroIntegration";
 import {buildMiddleWare} from "./build";
 import type {IAssets, IConfig, IViteResolvedConfig} from "./types";

@@ -49,24 +49,6 @@ function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, cont
 
 export async function ServerMiddleWare(payload: IParameterViteServe) {
     const {server, assets, options} = payload;
-// =======
-// const postfixRE = /[?#].*$/s
-
-// /**
-//  * Get pure file url
-//  * @param {string} url
-//  * @example
-//  * toFilePath('vite.svg?t=1703075066566') // return 'vite.svg'
-//  * @returns {string} Returns file url
-//  */
-// function toFilePath(url: string = '') {
-//     let filePath = url.replace(postfixRE, '')
-//     return filePath
-// }
-
-
-// export function ServerMiddleWare(payload: IParameterViteServe) {
-//     const {server, assets, options = {}} = payload;
     const {mimeTypes: types = {}, ssr} = options || {}
     if (!assets || !assets.length)
         return;
@@ -91,20 +73,6 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
                     })
                 else {
                     handleWriteToServe(res, req, contentType, file)
-// =======
-            // for (let i = 0; i < fileObject.length; i++) {
-            //     const file = path.join(process.cwd(), `${fileObject[i].name}/${toFilePath(req.originalUrl)}`);
-            //     if (fileObject[i].files.some(f => path.relative(f, file) === "")) {
-            //         const extension = file.substring(file.lastIndexOf("."));
-            //         const contentType = mergeMimeTypes[extension] || getContentType(file)
-            //         if (ssr)
-            //             res.addListener('pipe', () => {
-            //                 handleWriteToServe(res, req, contentType, file)
-            //             })
-            //         else {
-            //             handleWriteToServe(res, req, contentType, file)
-            //         }
-            //         return
                 }
             }
             next();
