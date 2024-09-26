@@ -74,8 +74,9 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
                 else {
                     handleWriteToServe(res, req, contentType, file)
                 }
+            } else {
+                next();
             }
-            next();
         });
     };
 }
