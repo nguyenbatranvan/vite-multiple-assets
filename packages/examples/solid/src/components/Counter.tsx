@@ -5,7 +5,7 @@ export default function Counter() {
     const [count, setCount] = createSignal(0);
     return (
         <>
-            <img src={"/vite.svg"}/>
+            <img src={"/shared-assets/vite.svg"}/>
             <button class="increment" onClick={() => setCount(count() + 1)}>
                 Clicks: {count()}
             </button>
