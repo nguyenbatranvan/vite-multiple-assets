@@ -1,14 +1,9 @@
 import fs from "fs";
-import path from "path";
-import {IMIME, IParameterViteServe} from "./types";
+import type { IParameterViteServe } from "./types";
 import mime from "mime-types";
 import http from "node:http";
-import {IncomingMessage} from "http";
-
-interface IPropsFile {
-    name: string;
-    files: string[];
-}
+import type { IncomingMessage } from "http";
+import { getFiles } from "./build";
 
 const mimeTypes = {
     ".html": "text/html",
@@ -41,20 +36,6 @@ const mimeTypes = {
     ".7z": "application/x-7z-compressed"
 }
 
-function getFiles(dir: string, files_: string[]): string[] {
-    files_ = files_ || [];
-    const files = fs.readdirSync(dir);
-    for (const i in files) {
-        const name = dir + "/" + files[i];
-        if (fs.statSync(name).isDirectory()) {
-            getFiles(name, files_);
-        } else {
-            files_.push(name);
-        }
-    }
-    return files_;
-}
-
 function getContentType(file: string) {
     return mime.lookup(file);
 }
@@ -66,55 +47,36 @@ function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, cont
     res.end();
 }
 
-
-const postfixRE = /[?#].*$/s
-
-/**
- * Get pure file url
- * @param {string} url
- * @example
- * toFilePath('vite.svg?t=1703075066566') // return 'vite.svg'
- * @returns {string} Returns file url
- */
-function toFilePath(url: string = '') {
-    let filePath = url.replace(postfixRE, '')
-    return filePath
-}
-
-
-export function ServerMiddleWare(payload: IParameterViteServe) {
-    const {server, assets, options = {}} = payload;
+export async function ServerMiddleWare(payload: IParameterViteServe) {
+    const {server, assets, options} = payload;
     const {mimeTypes: types = {}, ssr} = options || {}
     if (!assets || !assets.length)
         return;
-    const fileObject: IPropsFile[] = [];
-    for (let i = 0; i < assets.length; i++) {
-        const files = getFiles(path.join(process.cwd(), `/${assets[i]}`), []);
-        fileObject.push({
-            name: assets[i],
-            files
-        });
-    }
-    let mergeMimeTypes = {...mimeTypes, ...types}
+    const fileObject = await getFiles(assets, payload.options, payload.viteConfig);
+    let mergeMimeTypes: Record<string, string | undefined> = {...mimeTypes, ...types}
 
     return () => {
         server.middlewares.use(async (req, res, next) => {
-            for (let i = 0; i < fileObject.length; i++) {
-                const file = path.join(process.cwd(), `${fileObject[i].name}/${toFilePath(req.originalUrl)}`);
-                if (fileObject[i].files.some(f => path.relative(f, file) === "")) {
-                    const extension = file.substring(file.lastIndexOf("."));
-                    const contentType = mergeMimeTypes[extension] || getContentType(file)
-                    if (ssr)
-                        res.addListener('pipe', () => {
-                            handleWriteToServe(res, req, contentType, file)
-                        })
-                    else {
-                        handleWriteToServe(res, req, contentType, file)
-                    }
-                    return
+            // NOTE: remove first slash. url always forward slash.
+            // NOTE: handle "%2Fetc/wwwroot" for absolute "/etc/wwwroot"
+            // NOTE: handle "%2E%2E/%2E%2E/some/file.txt" for relative backward "../../some/file.txt"
+
+            const pathname = new URL(req.originalUrl ?? "", `http://${req.headers.host}`).pathname.slice(1);
+            let file = fileObject[pathname] ?? fileObject[decodeURIComponent(pathname)];
+
+            if (file) {
+                const extension = file.substring(file.lastIndexOf("."));
+                const contentType = mergeMimeTypes[extension] || getContentType(file) || mergeMimeTypes[".html"] || (getContentType(".html") as string);
+                if (ssr)
+                    res.addListener('pipe', () => {
+                        handleWriteToServe(res, req, contentType, file!)
+                    })
+                else {
+                    handleWriteToServe(res, req, contentType, file)
                 }
+            } else {
+                next();
             }
-            next();
         });
     };
 }

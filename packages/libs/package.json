@@ -1,6 +1,6 @@
 {
   "name": "vite-multiple-assets",
-  "version": "1.3.1",
+  "version": "2.0.0",
   "description": "Multiple public asset directories for vite",
   "author": "Van nguyen ba tran",
   "license": "MIT",
@@ -33,7 +33,8 @@
   },
   "scripts": {
     "build-npm": "rm -rf dist && tsup ./index.ts --dts --format cjs,esm",
-    "build": "rm -rf dist && tsup ./index.ts --dts --format cjs,esm",
+    "build-npm-win32": "rmdir /S /Q dist && tsup ./index.ts --dts --format cjs,esm",
+    "build": "npm run build-npm",
     "prepublishOnly": "pnpm build"
   },
   "keywords": [
@@ -44,6 +45,8 @@
   ],
   "devDependencies": {
     "@swc/core": "^1.3.72",
+    "@types/micromatch": "^4.0.7",
+    "@types/mime-types": "^2.1.4",
     "@types/node": "^20.4.5",
     "tsup": "^7.1.0",
     "typescript": "^5.1.6",
@@ -52,6 +55,10 @@
   "peerDependencies": {
     "mime-types": "^2.1.35",
     "vite": ">=2.9.6"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.2",
+    "micromatch": "^4.0.7"
   },
   "gitHead": "1f7378ff8a5bc22252de6f3e9b1f38bee078a663"
 }

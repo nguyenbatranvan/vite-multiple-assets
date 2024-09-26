@@ -5,7 +5,8 @@
     "target": "es5",
     /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     "lib": [
-      "es6"
+      "es6",
+      "ESNext"
     ],
     /* Specify a set of bundled library declaration files that describe the target runtime environment. */
     "module": "commonjs",

@@ -1,6 +1,6 @@
-import {DynamicPublicDirectory} from "./dynamicPublicDirectory";
+import {DynamicPublicDirectory} from "./index";
 import {ServerMiddleWare} from "./server";
-import {IConfig} from "./types";
+import type {IConfig, IParameterViteServe} from "./types";
 
 export function AstroIntegration(assets: string[], options: IConfig = {}) {
     return {
@@ -15,12 +15,12 @@ export function AstroIntegration(assets: string[], options: IConfig = {}) {
                     }
                 })
             },
-            "astro:server:setup": ({server}) => {
-                const middleware = ServerMiddleWare({
+            "astro:server:setup": async ({server}) => {
+                const middleware = await ServerMiddleWare({
                     server,
                     assets,
                     options
-                })
+                } as unknown as IParameterViteServe)
 
                 if (!middleware) return
 
