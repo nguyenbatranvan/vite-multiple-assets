@@ -1,6 +1,6 @@
-import type { Options } from "fast-glob";
-import type { PluginOption, ViteDevServer } from "vite";
-import type { NormalizedOutputOptions } from "rollup";
+import type {Options} from "fast-glob";
+import type {PluginOption, ViteDevServer} from "vite";
+import type {NormalizedOutputOptions} from "rollup";
 
 /**
  * Examples:
@@ -19,7 +19,7 @@ export type IFilesMapper = Partial<Record<string, string>>; // STUB: { baseTrans
 export type IMIME = Record<string, string>;
 
 /**
- * Return destination of files individually relative to output dir. 
+ * Return destination of files individually relative to output dir.
  * For example, if `viteConfig?.build.outDir` is set to `dist`, then
  * - when `dst == undefined`, then file would be stored inside `viteConfig.build.outDir` or `writeBundleOptions?.dir` or `dist/`
  * - when `dst == "./foo/bar"`, then file stored in `${viteConfig.build.outDir}/foo/bar/`
@@ -37,7 +37,7 @@ export type IMIME = Record<string, string>;
  * }
  * ```
  * - `() => undefined`, then it would going with default
- * 
+ *
  * **NOTE:** string must return either absolute path or relative path in POSIX without beginning slash. It must also return forward slash.\
  * NOTE: the default actually put inside `__dst` not `viteConfig?.build.outDir` \
  * NOTE: Please ALWAYS use posix slash, rather than win32 backslash
@@ -59,13 +59,16 @@ export interface IConfigExtend extends Partial<Pick<Options, "ignore" | "dot">> 
     dst?: string | FDst;
 }
 
-export interface IConfig extends 
-    IConfigExtend, 
-    Partial<Pick<Options, "onlyFiles" | "onlyDirectories" | "cwd" | "markDirectories">> 
-{
+export interface ICacheConfig {
+    [key: string]: string | number;
+}
+
+export interface IConfig extends IConfigExtend,
+    Partial<Pick<Options, "onlyFiles" | "onlyDirectories" | "cwd" | "markDirectories">> {
     __dst?: string; // NOTE: internal destination from parsing rollup write bundlers nor vite config.
     mimeTypes?: IMIME;
     ssr?: boolean;
+    cacheOptions?: ICacheConfig;
 }
 
 export interface IParameterViteServe {

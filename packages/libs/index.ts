@@ -1,12 +1,12 @@
-import type { PluginOption, ViteDevServer } from "vite";
+import type {PluginOption, ViteDevServer} from "vite";
 import {ServerMiddleWare} from "./server";
 import {AstroIntegration} from "./astroIntegration";
 import {buildMiddleWare} from "./build";
 import type {IAssets, IConfig, IViteResolvedConfig} from "./types";
-import type { NormalizedOutputOptions } from "rollup";
+import type {NormalizedOutputOptions} from "rollup";
 
 // FIXME: types of writeBuldeOptions is not match when developing in PNPM
-export function resolveInternalConfig({ opts, writeBundleOptions, viteConfig, force }: {
+export function resolveInternalConfig({opts, writeBundleOptions, viteConfig, force}: {
     opts: IConfig;
     writeBundleOptions?: NormalizedOutputOptions;
     viteConfig?: IViteResolvedConfig;
@@ -14,7 +14,7 @@ export function resolveInternalConfig({ opts, writeBundleOptions, viteConfig, fo
 }) {
     force ??= false;
     opts ??= {};
-
+    opts.cacheOptions ??= {}
     opts.ignore ??= [];
     opts.onlyFiles ??= true;
     opts.onlyDirectories ??= false;
@@ -37,7 +37,7 @@ export function resolveInternalConfig({ opts, writeBundleOptions, viteConfig, fo
 export default function DynamicPublicDirectory(assets: IAssets, opts: IConfig = {}): PluginOption {
     let viteConfig: IViteResolvedConfig;
 
-    resolveInternalConfig({ opts });
+    resolveInternalConfig({opts});
 
     return {
         async configureServer(server: ViteDevServer) {
@@ -45,11 +45,11 @@ export default function DynamicPublicDirectory(assets: IAssets, opts: IConfig = 
         },
         configResolved(config) {
             viteConfig = config;
-            resolveInternalConfig({ opts, viteConfig });
+            resolveInternalConfig({opts, viteConfig});
         },
         async writeBundle(writeBundleOptions) {
             // @ts-ignore
-            resolveInternalConfig({ opts, viteConfig, writeBundleOptions });
+            resolveInternalConfig({opts, viteConfig, writeBundleOptions});
             // @ts-ignore
             await buildMiddleWare(writeBundleOptions, assets, opts, viteConfig)
         },

@@ -1,9 +1,9 @@
 import fs from "fs";
-import type { IParameterViteServe } from "./types";
+import type {ICacheConfig, IParameterViteServe} from "./types";
 import mime from "mime-types";
 import http from "node:http";
-import type { IncomingMessage } from "http";
-import { getFiles } from "./build";
+import type {IncomingMessage} from "http";
+import {getFiles} from "./build";
 
 const mimeTypes = {
     ".html": "text/html",
@@ -40,8 +40,11 @@ function getContentType(file: string) {
     return mime.lookup(file);
 }
 
-function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, contentType: string, path: string) {
-    res.setHeader("Cache-Control", "max-age=31536000, immutable");
+function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, contentType: string, path: string, cacheOption: ICacheConfig = {}) {
+    for (const key in cacheOption) {
+        res.setHeader(key, cacheOption[key]);
+    }
+    // res.setHeader("Cache-Control", "max-age=31536000, immutable");
     res.setHeader("Content-Type", contentType);
     res.write(fs.readFileSync(path));
     res.end();
@@ -49,7 +52,7 @@ function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, cont
 
 export async function ServerMiddleWare(payload: IParameterViteServe) {
     const {server, assets, options} = payload;
-    const {mimeTypes: types = {}, ssr} = options || {}
+    const {mimeTypes: types = {}, ssr, cacheOptions = {}} = options || {}
     if (!assets || !assets.length)
         return;
     const fileObject = await getFiles(assets, payload.options, payload.viteConfig);
@@ -69,10 +72,10 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
                 const contentType = mergeMimeTypes[extension] || getContentType(file) || mergeMimeTypes[".html"] || (getContentType(".html") as string);
                 if (ssr)
                     res.addListener('pipe', () => {
-                        handleWriteToServe(res, req, contentType, file!)
+                        handleWriteToServe(res, req, contentType, file!, cacheOptions)
                     })
                 else {
-                    handleWriteToServe(res, req, contentType, file)
+                    handleWriteToServe(res, req, contentType, file, cacheOptions)
                 }
             } else {
                 next();
