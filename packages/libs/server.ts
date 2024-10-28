@@ -66,7 +66,6 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
 
             const pathname = new URL(req.originalUrl ?? "", `http://${req.headers.host}`).pathname.slice(1);
             let file = fileObject[pathname] ?? fileObject[decodeURIComponent(pathname)];
-            console.log('pa',pathname,file,fileObject)
             if (file) {
                 const extension = file.path.substring(file.path.lastIndexOf("."));
                 const contentType = mergeMimeTypes[extension] || getContentType(file.path) || mergeMimeTypes[".html"] || (getContentType(".html") as string);

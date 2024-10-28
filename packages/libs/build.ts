@@ -137,7 +137,6 @@ export async function getFiles(
         const indexMatch = data.findIndex(item => mm.isMatch(filepath, item.input));
         const output = data[indexMatch].output
         name = output ? join(output.replace(/^\/+/, ''), basename(filepath)) : _dstFile;
-        console.log('sss',name)
         mapper[name] = {
             path: resolve(opts.cwd!, filepath),
             output:data[indexMatch].output
