@@ -29,7 +29,11 @@ export default defineConfig({
     },
     plugins: [
         react(),
-        DynamicPublicDirectory(["../../../{\x01,shared-assets}/**"], {
+        // if exclude shared-assets use ../../../shared-assets/**
+        DynamicPublicDirectory([{
+            input: "../../../{\x01,shared-assets}/**",
+            output: "shared/images"
+        }], {
             ssr: false,
         }) as PluginOption,
     ],

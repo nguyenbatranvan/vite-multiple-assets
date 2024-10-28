@@ -13,8 +13,16 @@ import type {NormalizedOutputOptions} from "rollup";
  * NOTE: for blank pattern on `{,filename}` assumed include everything by fast-glob. To fix it, use forbidden name or ascii (else than null).
  *       For example `\x01`, `CON`, `NUL`, please see [this answer](https://stackoverflow.com/a/31976060).
  */
-export type IAssets = string[]; // | string | (IConfigExtend & { assets: string | string[]; })[];
-export type IFilesMapper = Partial<Record<string, string>>; // STUB: { baseTransformedFilePath: toAbsolutePath }
+export type IObjectAssets = {
+    input: string;
+    output: string;
+}
+
+export type TValueMapper = Pick<IObjectAssets, 'output'> & {
+    path: string;
+}
+export type IAssets = (string | IObjectAssets)[]; // | string | (IConfigExtend & { assets: string | string[]; })[];
+export type IFilesMapper = Partial<Record<string, TValueMapper>>; // STUB: { baseTransformedFilePath: toAbsolutePath }
 
 export type IMIME = Record<string, string>;
 

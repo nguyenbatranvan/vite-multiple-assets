@@ -13,5 +13,8 @@
     "astro": "^4.13.4",
     "@astrojs/check": "^0.9.2",
     "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "vite-multiple-assets": "*"
   }
 }

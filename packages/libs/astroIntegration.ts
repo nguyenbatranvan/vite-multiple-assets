@@ -1,8 +1,8 @@
 import {DynamicPublicDirectory} from "./index";
 import {ServerMiddleWare} from "./server";
-import type {IConfig, IParameterViteServe} from "./types";
+import type {IAssets, IConfig, IParameterViteServe} from "./types";
 
-export function AstroIntegration(assets: string[], options: IConfig = {}) {
+export function AstroIntegration(assets: IAssets, options: IConfig = {}) {
     return {
         name: "vite-multiple-assets-astro-integration",
         hooks: {

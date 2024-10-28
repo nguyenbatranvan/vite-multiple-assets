@@ -66,16 +66,16 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
 
             const pathname = new URL(req.originalUrl ?? "", `http://${req.headers.host}`).pathname.slice(1);
             let file = fileObject[pathname] ?? fileObject[decodeURIComponent(pathname)];
-
+            console.log('pa',pathname,file,fileObject)
             if (file) {
-                const extension = file.substring(file.lastIndexOf("."));
-                const contentType = mergeMimeTypes[extension] || getContentType(file) || mergeMimeTypes[".html"] || (getContentType(".html") as string);
+                const extension = file.path.substring(file.path.lastIndexOf("."));
+                const contentType = mergeMimeTypes[extension] || getContentType(file.path) || mergeMimeTypes[".html"] || (getContentType(".html") as string);
                 if (ssr)
                     res.addListener('pipe', () => {
-                        handleWriteToServe(res, req, contentType, file!, cacheOptions)
+                        handleWriteToServe(res, req, contentType, file?.path!, cacheOptions)
                     })
                 else {
-                    handleWriteToServe(res, req, contentType, file, cacheOptions)
+                    handleWriteToServe(res, req, contentType, file.path, cacheOptions)
                 }
             } else {
                 next();
