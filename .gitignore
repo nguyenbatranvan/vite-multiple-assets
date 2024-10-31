@@ -23,7 +23,7 @@ node_modules
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-
+.nx
 # misc
 /.sass-cache
 /connect.lock
@@ -41,3 +41,4 @@ Thumbs.db
 /playwright/.cache/
 /playwright-report/
 .nx/cache
+test-results
