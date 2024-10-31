@@ -1,0 +1,374 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.8.8",
+  "deps": {
+    "@playwright/test": "^1.43.1",
+    "@types/node": "^20.12.8",
+    "lerna": "^8.1.2",
+    "typescript": "^5.4.5",
+    "vite": "^5.2.11",
+    "playwright": "^1.43.1"
+  },
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "nonProjectFiles": [
+      {
+        "file": "test-results/examples-react-src-App-Tes-c29ad--Check-loaded-success-image-webkit/trace.zip",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "shared-assets/SteradianTRIAL-XLtIt.otf",
+        "hash": "1539098240413197510"
+      },
+      {
+        "file": "DEVELOPMENT.md",
+        "hash": "2031703627968746401"
+      },
+      {
+        "file": "nx.json",
+        "hash": "5673053856041697821"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "1031165810261179468"
+      },
+      {
+        "file": "lerna.json",
+        "hash": "1619730344057817078"
+      },
+      {
+        "file": ".github/workflows/playwright.yml",
+        "hash": "11027926639054616593"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "1972427135965867012"
+      },
+      {
+        "file": "shared-assets/vite.svg",
+        "hash": "16046085400642193116"
+      },
+      {
+        "file": "README.md",
+        "hash": "7687642882858312690"
+      },
+      {
+        "file": "test-results/examples-react-src-App-Tes-c29ad--Check-loaded-success-image-firefox/trace.zip",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "package.json",
+        "hash": "7895052203152156464"
+      },
+      {
+        "file": "LICENSE",
+        "hash": "8574888714444011396"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "8593539069562525324"
+      },
+      {
+        "file": "playwright.config.ts",
+        "hash": "10360782380385195523"
+      },
+      {
+        "file": "test-results/examples-react-src-App-Tes-c29ad--Check-loaded-success-image-chromium/trace.zip",
+        "hash": "3244421341483603138"
+      }
+    ],
+    "projectFileMap": {
+      "astro": [
+        {
+          "file": "packages/examples/astro/.gitignore",
+          "hash": "9587681945569237513"
+        },
+        {
+          "file": "packages/examples/astro/.vscode/extensions.json",
+          "hash": "4591125310708873372"
+        },
+        {
+          "file": "packages/examples/astro/.vscode/launch.json",
+          "hash": "1679638439007128934"
+        },
+        {
+          "file": "packages/examples/astro/README.md",
+          "hash": "18271660719621945968"
+        },
+        {
+          "file": "packages/examples/astro/astro.config.mjs",
+          "hash": "5705740409295162206"
+        },
+        {
+          "file": "packages/examples/astro/package.json",
+          "hash": "1100654888819016109",
+          "deps": [
+            "vite-multiple-assets"
+          ]
+        },
+        {
+          "file": "packages/examples/astro/public/favicon.svg",
+          "hash": "9875909904608765743"
+        },
+        {
+          "file": "packages/examples/astro/public2/upload-file.png",
+          "hash": "13333551170858494573"
+        },
+        {
+          "file": "packages/examples/astro/src/components/Card.astro",
+          "hash": "12263260993253079314"
+        },
+        {
+          "file": "packages/examples/astro/src/env.d.ts",
+          "hash": "2755340118673137363"
+        },
+        {
+          "file": "packages/examples/astro/src/layouts/Layout.astro",
+          "hash": "104052978795862459"
+        },
+        {
+          "file": "packages/examples/astro/src/pages/index.astro",
+          "hash": "4217958371066946212"
+        },
+        {
+          "file": "packages/examples/astro/test.js",
+          "hash": "10264572199275131769"
+        },
+        {
+          "file": "packages/examples/astro/tsconfig.json",
+          "hash": "17437526333364679528"
+        }
+      ],
+      "solid": [
+        {
+          "file": "packages/examples/solid/.gitignore",
+          "hash": "11627696191097508525"
+        },
+        {
+          "file": "packages/examples/solid/README.md",
+          "hash": "17801174425430644368"
+        },
+        {
+          "file": "packages/examples/solid/package.json",
+          "hash": "10030480904410986277",
+          "deps": [
+            "vite-multiple-assets"
+          ]
+        },
+        {
+          "file": "packages/examples/solid/public/favicon.ico",
+          "hash": "9506891023141728852"
+        },
+        {
+          "file": "packages/examples/solid/src/components/Counter.css",
+          "hash": "14886868485482189709"
+        },
+        {
+          "file": "packages/examples/solid/src/components/Counter.tsx",
+          "hash": "15413024247758854633"
+        },
+        {
+          "file": "packages/examples/solid/src/entry-client.tsx",
+          "hash": "384043572722242907"
+        },
+        {
+          "file": "packages/examples/solid/src/entry-server.tsx",
+          "hash": "3706263684715320920"
+        },
+        {
+          "file": "packages/examples/solid/src/global.d.ts",
+          "hash": "8760182499652072588"
+        },
+        {
+          "file": "packages/examples/solid/src/root.css",
+          "hash": "7729762430658460431"
+        },
+        {
+          "file": "packages/examples/solid/src/root.tsx",
+          "hash": "16779325488989584599"
+        },
+        {
+          "file": "packages/examples/solid/src/routes/[...404].tsx",
+          "hash": "10457480587060517509"
+        },
+        {
+          "file": "packages/examples/solid/src/routes/index.tsx",
+          "hash": "1027110914634328773"
+        },
+        {
+          "file": "packages/examples/solid/tsconfig.json",
+          "hash": "15552724437647645841"
+        },
+        {
+          "file": "packages/examples/solid/vite.config.ts",
+          "hash": "11713202244135052158"
+        }
+      ],
+      "react": [
+        {
+          "file": "packages/examples/react/.eslintrc.cjs",
+          "hash": "7982837740375015647"
+        },
+        {
+          "file": "packages/examples/react/.gitignore",
+          "hash": "13046175384202504187"
+        },
+        {
+          "file": "packages/examples/react/index.html",
+          "hash": "9455432582672859337"
+        },
+        {
+          "file": "packages/examples/react/package.json",
+          "hash": "7818029663045859943",
+          "deps": [
+            "vite-multiple-assets"
+          ]
+        },
+        {
+          "file": "packages/examples/react/src/App.css",
+          "hash": "3739391659270974612"
+        },
+        {
+          "file": "packages/examples/react/src/App.spec.tsx",
+          "hash": "3221730468447635089"
+        },
+        {
+          "file": "packages/examples/react/src/App.tsx",
+          "hash": "12530397385264760779"
+        },
+        {
+          "file": "packages/examples/react/src/assets/react.svg",
+          "hash": "16069471864800376455"
+        },
+        {
+          "file": "packages/examples/react/src/index.css",
+          "hash": "14049402097647904024"
+        },
+        {
+          "file": "packages/examples/react/src/main.tsx",
+          "hash": "13511002928405110160"
+        },
+        {
+          "file": "packages/examples/react/src/vite-env.d.ts",
+          "hash": "12946363841406869089"
+        },
+        {
+          "file": "packages/examples/react/tsconfig.json",
+          "hash": "14965769725088887625"
+        },
+        {
+          "file": "packages/examples/react/tsconfig.node.json",
+          "hash": "18222442198124788062"
+        },
+        {
+          "file": "packages/examples/react/vite.config.ts",
+          "hash": "3234056583967960165"
+        }
+      ],
+      "vue3": [
+        {
+          "file": "packages/examples/vue3/.gitignore",
+          "hash": "13046175384202504187"
+        },
+        {
+          "file": "packages/examples/vue3/.vscode/extensions.json",
+          "hash": "2924711551599599544"
+        },
+        {
+          "file": "packages/examples/vue3/README.md",
+          "hash": "16028011462273463162"
+        },
+        {
+          "file": "packages/examples/vue3/index.html",
+          "hash": "2041538145237984364"
+        },
+        {
+          "file": "packages/examples/vue3/package.json",
+          "hash": "783773192354269619",
+          "deps": [
+            "vite-multiple-assets"
+          ]
+        },
+        {
+          "file": "packages/examples/vue3/src/App.vue",
+          "hash": "6557143399698257237"
+        },
+        {
+          "file": "packages/examples/vue3/src/assets/vue.svg",
+          "hash": "6215844894841429247"
+        },
+        {
+          "file": "packages/examples/vue3/src/components/HelloWorld.vue",
+          "hash": "12376392656239528072"
+        },
+        {
+          "file": "packages/examples/vue3/src/main.ts",
+          "hash": "16191179116649366684"
+        },
+        {
+          "file": "packages/examples/vue3/src/style.css",
+          "hash": "9062188384862178705"
+        },
+        {
+          "file": "packages/examples/vue3/src/vite-env.d.ts",
+          "hash": "12946363841406869089"
+        },
+        {
+          "file": "packages/examples/vue3/tsconfig.app.json",
+          "hash": "12789740082132894938"
+        },
+        {
+          "file": "packages/examples/vue3/tsconfig.json",
+          "hash": "2365188958523842680"
+        },
+        {
+          "file": "packages/examples/vue3/tsconfig.node.json",
+          "hash": "3810366411942401755"
+        },
+        {
+          "file": "packages/examples/vue3/vite.config.ts",
+          "hash": "2640053167839113683"
+        }
+      ],
+      "vite-multiple-assets": [
+        {
+          "file": "packages/libs/.npmrc",
+          "hash": "15947402389963144506"
+        },
+        {
+          "file": "packages/libs/README.md",
+          "hash": "1149263018686870318"
+        },
+        {
+          "file": "packages/libs/astroIntegration.ts",
+          "hash": "13242128871020880447"
+        },
+        {
+          "file": "packages/libs/build.ts",
+          "hash": "7493016315512378561"
+        },
+        {
+          "file": "packages/libs/index.ts",
+          "hash": "10569959160935883719"
+        },
+        {
+          "file": "packages/libs/package.json",
+          "hash": "1661477527159303088"
+        },
+        {
+          "file": "packages/libs/server.ts",
+          "hash": "2179141441052010018"
+        },
+        {
+          "file": "packages/libs/tsconfig.json",
+          "hash": "18099735371557751781"
+        },
+        {
+          "file": "packages/libs/types.d.ts",
+          "hash": "195421517118451811"
+        }
+      ]
+    }
+  }
+}
