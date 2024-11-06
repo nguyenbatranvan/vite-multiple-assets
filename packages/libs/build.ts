@@ -131,18 +131,22 @@ export async function getFiles(
             });
         if (_dstFile == false) continue;
         if (_dstFile == undefined) _dstFile = name as string;
-        _dstFile = _dstFile.replaceAll(sep, posixSep); // STUB: force using posix
+        _dstFile = replacePosixSep(_dstFile); // STUB: force using posix
 
         // STUB: this intentionally left for future extentional purpose
         const indexMatch = data.findIndex(item => mm.isMatch(filepath, item.input));
         const output = data[indexMatch].output
-        name = output ? join(output.replace(/^\/+/, ''), basename(filepath)) : _dstFile;
+        name = output ? replacePosixSep(join(output.replace(/^\/+/, ''), basename(filepath))) : _dstFile;
         mapper[name] = {
             path: resolve(opts.cwd!, filepath),
-            output:data[indexMatch].output
+            output: data[indexMatch].output
         }; // STUB: filepath MUST Absolute
     }
     return mapper;
+}
+
+function replacePosixSep(value: string) {
+    return value.replaceAll(sep, posixSep);
 }
 
 export async function buildMiddleWare(
