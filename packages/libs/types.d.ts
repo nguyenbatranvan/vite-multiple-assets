@@ -16,6 +16,7 @@ import type {NormalizedOutputOptions} from "rollup";
 export type IObjectAssets = {
     input: string;
     output: string;
+    watch?: boolean;
 }
 
 export type TValueMapper = Pick<IObjectAssets, 'output'> & {
