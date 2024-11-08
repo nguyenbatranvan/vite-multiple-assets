@@ -57,6 +57,7 @@
     "vite": ">=2.9.6"
   },
   "dependencies": {
+    "chokidar": "^4.0.1",
     "fast-glob": "^3.3.2",
     "micromatch": "^4.0.7"
   },
