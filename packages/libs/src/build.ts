@@ -80,7 +80,7 @@ function transformFiles(data: IAssets, opts?: IConfig) {
             })
         } else {
             const {watch, input} = item;
-            watch && watchPaths.push(resolve(cwd!, fg.sync('../../../{\x01,shared-assets}/'.replace('**', ""), {
+            watch && watchPaths.push(resolve(cwd!, fg.sync(input.replace('**', ""), {
                 onlyFiles: false,
             })[0]))
             __files.push(input)

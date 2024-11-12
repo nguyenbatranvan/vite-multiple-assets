@@ -32,8 +32,8 @@
     }
   },
   "scripts": {
-    "build-npm": "rm -rf dist && tsup ./index.ts --dts --format cjs,esm",
-    "build-npm-win32": "rmdir /S /Q dist && tsup ./index.ts --dts --format cjs,esm",
+    "build-npm": "rm -rf dist && tsup src/index.ts --dts --format cjs,esm",
+    "build-npm-win32": "rmdir /S /Q dist && tsup src/index.ts --dts --format cjs,esm",
     "build": "npm run build-npm",
     "prepublishOnly": "pnpm build"
   },
