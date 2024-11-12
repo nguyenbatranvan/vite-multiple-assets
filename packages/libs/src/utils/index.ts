@@ -1,0 +1,1 @@
+export {getTargetPathSymlink} from "./getTargetPathSymlink"
