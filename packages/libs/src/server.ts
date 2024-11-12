@@ -4,8 +4,9 @@ import mime from "mime-types";
 import http from "node:http";
 import type {IncomingMessage} from "http";
 import {getFiles} from "./build";
-import chokidar from "chokidar";
 import {ViteDevServer} from "vite";
+import Watchpack from "watchpack"
+
 
 const mimeTypes = {
     ".html": "text/html",
@@ -54,15 +55,33 @@ function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, cont
 
 
 function handleRestartChangFolder(watchPaths: string[], server: ViteDevServer) {
-    let internal;
-    chokidar.watch(watchPaths, {
-        ignoreInitial: true,
-    }).on('all', () => {
-        internal && clearTimeout(internal)
-        internal = setTimeout(() => {
-            server.restart()
-        })
+    const wp = new Watchpack({
+        aggregateTimeout:10,
+        followSymlinks: true,
+    });
+    wp.watch({
+        directories:watchPaths,
+        startTime: Date.now() - 10000
     })
+    wp.on('change',()=>{
+        console.log('ccc')
+        server.restart()
+    })
+
+    wp.on('remove',()=>{
+        server.restart()
+    })
+
+    // chokidar.watch(watchPaths, {
+    //     ignoreInitial: true,
+    //     followSymlinks: true,
+    //     persistent: true
+    // }).on('all', () => {
+    //     internal && clearTimeout(internal)
+    //     internal = setTimeout(() => {
+    //         server.restart()
+    //     })
+    // })
 
 }
 

@@ -47,6 +47,7 @@
     "@swc/core": "^1.7.40",
     "@types/micromatch": "^4.0.9",
     "@types/mime-types": "^2.1.4",
+    "@types/watchpack": "^2.4.4",
     "@types/node": "^22.8.1",
     "tsup": "^8.3.5",
     "typescript": "^5.6.3",
@@ -57,7 +58,7 @@
     "vite": ">=2.9.6"
   },
   "dependencies": {
-    "chokidar": "^4.0.1",
+    "watchpack": "^2.4.2",
     "fast-glob": "^3.3.2",
     "micromatch": "^4.0.7"
   },
