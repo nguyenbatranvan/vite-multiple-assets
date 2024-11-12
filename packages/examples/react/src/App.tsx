@@ -11,10 +11,11 @@ function App() {
         <>
             <div>
                 <a href="https://vitejs.dev" target="_blank">
-                    <img src={"/shared/images/vite.svg"} className="logo" alt="Vite logo"/>
+                    <img aria-label={"logo-assets"} src={"/shared/images/vite.svg"} className="logo" alt="Vite logo"/>
+                    {/*<img aria-label={"logo-assets-symlink"} src={"/shared/images/change.png"} className="logo" alt="Vite logo"/>*/}
                 </a>
                 <a href="https://react.dev" target="_blank">
-                    <img aria-label={"logo-assets"} src={reactLogo} className="logo react" alt="React logo"/>
+                    <img  src={reactLogo} className="logo react" alt="React logo"/>
                 </a>
             </div>
             <Button w={{
