@@ -7,7 +7,8 @@
     "dev": "tsc && npx vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "e2e": "npx playwright test --ui"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
