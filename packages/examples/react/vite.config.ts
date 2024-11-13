@@ -25,10 +25,10 @@ export default defineConfig({
     root: __dirname,
     publicDir: false,
     server: {
-        port: 3003
+        port: 3000
     },
     preview: {
-        port: 3003
+        port: 3000
     },
     plugins: [
         react(),
