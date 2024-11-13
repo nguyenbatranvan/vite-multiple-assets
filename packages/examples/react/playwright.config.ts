@@ -1,4 +1,5 @@
 import {defineConfig, devices} from "@playwright/test";
+
 export default defineConfig({
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
@@ -6,7 +7,7 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: "html",
     use: {
-        baseURL: "http://localhost:3000",
+        baseURL: "http://localhost:3003",
         headless: true,
         ignoreHTTPSErrors: true,
         screenshot: "only-on-failure",
@@ -32,18 +33,22 @@ export default defineConfig({
             use: {...devices["Desktop Safari"]}
         }
     ],
-    webServer: [{
-        command: "npm run dev",
-        url: "http://localhost:3000",
-        reuseExistingServer: !process.env.CI,
-        stdout: "ignore",
-        stderr: "pipe"
-    }, {
-        command: "npm run build && npm run preview",
-        url: "http://localhost:3000",
-        reuseExistingServer: !process.env.CI,
-        stdout: "ignore",
-        stderr: "pipe"
-    }],
+    webServer:
+        [
+            {
+                command: "npm run dev",
+                url: "http://localhost:3003",
+                reuseExistingServer: !process.env.CI,
+                stdout: "ignore",
+                stderr: "pipe"
+            },
+            {
+                command: "npm run build && npm run preview",
+                url: "http://localhost:3003",
+                reuseExistingServer: !process.env.CI,
+                stdout: "ignore",
+                stderr: "pipe"
+            }
+        ],
     testDir: "src/",
 });
