@@ -4,6 +4,9 @@ import mime from "mime-types";
 import http from "node:http";
 import type {IncomingMessage} from "http";
 import {getFiles} from "./build";
+import {ViteDevServer} from "vite";
+import Watchpack from "watchpack"
+
 
 const mimeTypes = {
     ".html": "text/html",
@@ -50,19 +53,52 @@ function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, cont
     res.end();
 }
 
+
+function handleRestartChangFolder(watchPaths: string[], server: ViteDevServer) {
+    const wp = new Watchpack({
+        aggregateTimeout:10,
+        followSymlinks: true,
+    });
+    wp.watch({
+        directories:watchPaths,
+        startTime: Date.now() - 10000
+    })
+    wp.on('change',()=>{
+        console.log('ccc')
+        server.restart()
+    })
+
+    wp.on('remove',()=>{
+        server.restart()
+    })
+
+    // chokidar.watch(watchPaths, {
+    //     ignoreInitial: true,
+    //     followSymlinks: true,
+    //     persistent: true
+    // }).on('all', () => {
+    //     internal && clearTimeout(internal)
+    //     internal = setTimeout(() => {
+    //         server.restart()
+    //     })
+    // })
+
+}
+
 export async function ServerMiddleWare(payload: IParameterViteServe) {
     const {server, assets, options} = payload;
     const {mimeTypes: types = {}, ssr, cacheOptions = {}} = options || {}
     if (!assets || !assets.length)
         return;
-    const fileObject = await getFiles(assets, payload.options, payload.viteConfig);
+    const {mapper: fileObject, watchPaths} = await getFiles(assets, payload.options, payload.viteConfig);
     let mergeMimeTypes: Record<string, string | undefined> = {...mimeTypes, ...types}
-
+    watchPaths?.length && handleRestartChangFolder(watchPaths, server);
     return () => {
         server.middlewares.use(async (req, res, next) => {
             // NOTE: remove first slash. url always forward slash.
             // NOTE: handle "%2Fetc/wwwroot" for absolute "/etc/wwwroot"
             // NOTE: handle "%2E%2E/%2E%2E/some/file.txt" for relative backward "../../some/file.txt"
+
 
             const pathname = new URL(req.originalUrl ?? "", `http://${req.headers.host}`).pathname.slice(1);
             let file = fileObject[pathname] ?? fileObject[decodeURIComponent(pathname)];

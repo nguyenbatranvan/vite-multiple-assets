@@ -1,7 +1,7 @@
 import fs from "fs/promises";
 import type {NormalizedOutputOptions} from "rollup";
 import {isAbsolute, dirname, sep, join, resolve, basename} from "path";
-import {relative, sep as posixSep} from "path/posix"; // NOTE: use posix for relative transformation
+import {sep as posixSep} from "path/posix"; // NOTE: use posix for relative transformation
 import mm from "micromatch";
 import fg from "fast-glob";
 import {FDst, IAssets, IConfig, IFilesMapper, IObjectAssets, IViteResolvedConfig} from "./types";
@@ -36,7 +36,7 @@ export function destinationResolver() {
                                assets, dstFile,
                                opts: {ignore, ...opts},
                            }) => {
-        const {files} = transformFiles(assets)
+        const {files} = transformFiles(assets, opts)
         for (const asset of files) {
             // FIXME: when IAssets extended, this identifier could collapse
             if (!(asset in list)) {
@@ -66,9 +66,11 @@ export function destinationResolver() {
 
 export const internalDestination = destinationResolver();
 
-function transformFiles(data: IAssets) {
+function transformFiles(data: IAssets, opts?: IConfig) {
     const __data: IObjectAssets[] = [];
+    const {cwd} = opts ?? {};
     const __files: string[] = [];
+    const watchPaths: string[] = [];
     for (let item of data) {
         if (typeof item === "string") {
             __files.push(item)
@@ -77,15 +79,21 @@ function transformFiles(data: IAssets) {
                 output: ""
             })
         } else {
-            __files.push(item.input)
+            const {watch, input} = item;
+            watch && watchPaths.push(resolve(cwd!, fg.sync(input.replace('**', ""), {
+                onlyFiles: false,
+            })[0]))
+            __files.push(input)
             __data.push(item);
         }
     }
     return {
+        watchPaths,
         data: __data,
         files: __files
     }
 }
+
 
 export async function getFiles(
     files_: IAssets = [],
@@ -94,7 +102,7 @@ export async function getFiles(
     writeBundleOptions?: NormalizedOutputOptions
 ) {
     files_ = files_ || [];
-    const {files: __transformFiles, data} = transformFiles(files_);
+    const {files: __transformFiles, data, watchPaths} = transformFiles(files_, opts);
     const files = await fg.glob(__transformFiles, {
         ignore: [],
         onlyFiles: true,
@@ -135,14 +143,14 @@ export async function getFiles(
 
         // STUB: this intentionally left for future extentional purpose
         const indexMatch = data.findIndex(item => mm.isMatch(filepath, item.input));
-        const output = data[indexMatch].output
+        const output = data[indexMatch]?.output
         name = output ? replacePosixSep(join(output.replace(/^\/+/, ''), basename(filepath))) : _dstFile;
         mapper[name] = {
             path: resolve(opts.cwd!, filepath),
-            output: data[indexMatch].output
+            output
         }; // STUB: filepath MUST Absolute
     }
-    return mapper;
+    return {mapper, watchPaths};
 }
 
 function replacePosixSep(value: string) {
@@ -155,8 +163,8 @@ export async function buildMiddleWare(
     opts: IConfig = {},
     viteConfig: IViteResolvedConfig,
 ) {
-    const files = await getFiles(assets, opts, viteConfig, writeBundleOptions);
-    for (const [_dstFile, filepath] of Object.entries(files)) {
+    const {mapper} = await getFiles(assets, opts, viteConfig, writeBundleOptions);
+    for (const [_dstFile, filepath] of Object.entries(mapper)) {
         const {output, path} = filepath!;
         // STUB: `dstFile` must be absolute.
         const dstFile = isAbsolute(_dstFile) ? _dstFile : join(opts.__dst!, output || _dstFile);

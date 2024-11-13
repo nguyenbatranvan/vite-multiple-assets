@@ -18,7 +18,6 @@ export default defineConfig({
         stdout: "ignore",
         stderr: "pipe"
     },
-
     testDir: "packages/",
     fullyParallel: true,
     forbidOnly: !!process.env.CI,

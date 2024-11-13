@@ -32,8 +32,8 @@
     }
   },
   "scripts": {
-    "build-npm": "rm -rf dist && tsup ./index.ts --dts --format cjs,esm",
-    "build-npm-win32": "rmdir /S /Q dist && tsup ./index.ts --dts --format cjs,esm",
+    "build-npm": "rm -rf dist && tsup src/index.ts --dts --format cjs,esm",
+    "build-npm-win32": "rmdir /S /Q dist && tsup src/index.ts --dts --format cjs,esm",
     "build": "npm run build-npm",
     "prepublishOnly": "pnpm build"
   },
@@ -47,6 +47,7 @@
     "@swc/core": "^1.7.40",
     "@types/micromatch": "^4.0.9",
     "@types/mime-types": "^2.1.4",
+    "@types/watchpack": "^2.4.4",
     "@types/node": "^22.8.1",
     "tsup": "^8.3.5",
     "typescript": "^5.6.3",
@@ -57,6 +58,7 @@
     "vite": ">=2.9.6"
   },
   "dependencies": {
+    "watchpack": "^2.4.2",
     "fast-glob": "^3.3.2",
     "micromatch": "^4.0.7"
   },

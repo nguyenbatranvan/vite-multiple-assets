@@ -27,13 +27,18 @@ export default defineConfig({
     server: {
         port: 3000
     },
+    preview: {
+        port: 3000
+    },
     plugins: [
         react(),
         // if exclude shared-assets use ../../../shared-assets/**
-        DynamicPublicDirectory([{
-            input: "../../../shared-assets/**",
-            output: "/shared/images"
-        }], {
+        DynamicPublicDirectory([
+            {
+                input: "../../../{\x01,shared-assets}/**",
+                output: "/shared/images",
+                watch: true // default
+            }, "public/**", "{\x01,public2}/**"], {
             ssr: false,
         }) as PluginOption,
     ],

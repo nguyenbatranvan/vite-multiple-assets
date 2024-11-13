@@ -11,15 +11,19 @@ function App() {
         <>
             <div>
                 <a href="https://vitejs.dev" target="_blank">
-                    <img src={"/shared/images/vite.svg"} className="logo" alt="Vite logo"/>
+                    <img aria-label={"logo-assets"} src={"/shared/images/vite.svg"} className="logo" alt="Vite logo"/>
+                    <img aria-label={"img-base"} src={"/images/settings.png"} className="logo" alt="Vite logo"/>
+                    <img aria-label={"img-base-with-parent"} src={"/public2/images/settings.png"} className="logo"
+                         alt="Vite logo"/>
+                    {/*<img aria-label={"logo-assets-symlink"} src={"/shared/images/change.png"} className="logo" alt="Vite logo"/>*/}
                 </a>
                 <a href="https://react.dev" target="_blank">
-                    <img aria-label={"logo-assets"} src={reactLogo} className="logo react" alt="React logo"/>
+                    <img src={reactLogo} className="logo react" alt="React logo"/>
                 </a>
             </div>
             <Button w={{
-                sm:'100px',
-                lg:'200px'
+                sm: '100px',
+                lg: '200px'
             }}>
                 HIII
             </Button>

@@ -9,20 +9,21 @@
   ],
   "scripts": {
     "dev": "npx lerna run dev --scope=react",
+    "e2e-react": "npx lerna run e2e --scope=react",
     "vue": "npx lerna run dev --scope=vue3",
     "astro": "npx lerna run dev --scope=astro",
     "solid": "npx lerna run dev --scope=solid",
     "build": "lerna run --parallel build",
     "preview": "lerna run --parallel preview",
     "publish": "lerna run --parallel build-npm",
-    "e2e": "npx playwright test --ui"
+    "e2e": "npx playwright test"
   },
   "devDependencies": {
-    "@playwright/test": "^1.43.1",
+    "@playwright/test": "^1.48.2",
     "@types/node": "^20.12.8",
-    "lerna": "^8.1.2",
-    "typescript": "^5.4.5",
-    "vite": "^5.2.11",
-    "playwright": "^1.43.1"
+    "lerna": "^8.1.9",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.11",
+    "playwright": "^1.48.2"
   }
 }
