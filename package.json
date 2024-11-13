@@ -16,7 +16,7 @@
     "build": "lerna run --parallel build",
     "preview": "lerna run --parallel preview",
     "publish": "lerna run --parallel build-npm",
-    "e2e": "npx playwright test --ui"
+    "e2e": "npx playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.2",
