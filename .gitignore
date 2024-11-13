@@ -42,3 +42,4 @@ Thumbs.db
 /playwright-report/
 .nx/cache
 test-results
+playwright-report

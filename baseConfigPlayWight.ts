@@ -1,14 +1,14 @@
 import {PlaywrightTestConfig} from "playwright/types/test";
 import {devices} from "@playwright/test";
 
-const shareConfigPlayWright: PlaywrightTestConfig = {
+export const shareConfigPlayWright: PlaywrightTestConfig = {
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
     workers: process.env.CI ? 1 : undefined,
     reporter: "html",
     use: {
-        baseURL: "http://localhost:3000",
+        baseURL: "http://localhost:3003",
         headless: true,
         ignoreHTTPSErrors: true,
         screenshot: "only-on-failure",
@@ -36,6 +36,3 @@ const shareConfigPlayWright: PlaywrightTestConfig = {
     ]
 }
 
-module.exports = {
-    shareConfigPlayWright
-}
