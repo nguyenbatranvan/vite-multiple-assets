@@ -7,7 +7,8 @@
     "dev": "tsc && npx vite",
     "build": "tsc && vite build",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "e2e": "npx playwright test"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -17,8 +18,6 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "playwright": "^1.48.2",
-    "@playwright/test": "^1.48.2",
     "vite-multiple-assets": "*",
     "@types/react": "^18.2.14",
     "@types/react-dom": "^18.3.0",
