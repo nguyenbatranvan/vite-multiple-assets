@@ -143,11 +143,11 @@ export async function getFiles(
 
         // STUB: this intentionally left for future extentional purpose
         const indexMatch = data.findIndex(item => mm.isMatch(filepath, item.input));
-        const output = data[indexMatch].output
+        const output = data[indexMatch]?.output
         name = output ? replacePosixSep(join(output.replace(/^\/+/, ''), basename(filepath))) : _dstFile;
         mapper[name] = {
             path: resolve(opts.cwd!, filepath),
-            output: data[indexMatch].output,
+            output
         }; // STUB: filepath MUST Absolute
     }
     return {mapper, watchPaths};
