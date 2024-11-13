@@ -2,20 +2,6 @@ import {PlaywrightTestConfig} from "playwright/types/test";
 import {devices} from "@playwright/test";
 
 export const shareConfigPlayWright:PlaywrightTestConfig={
-    webServer: [{
-        command: "npm run dev",
-        url: "http://localhost:3000",
-        reuseExistingServer: !process.env.CI,
-        stdout: "ignore",
-        stderr: "pipe"
-    }, {
-        command: "npm run b-test && npm run p-test",
-        url: "http://localhost:3000",
-        reuseExistingServer: !process.env.CI,
-        stdout: "ignore",
-        stderr: "pipe"
-    }],
-
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
