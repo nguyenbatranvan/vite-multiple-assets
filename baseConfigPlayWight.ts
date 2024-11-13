@@ -1,7 +1,7 @@
 import {PlaywrightTestConfig} from "playwright/types/test";
 import {devices} from "@playwright/test";
 
-export const shareConfigPlayWright:PlaywrightTestConfig={
+const shareConfigPlayWright: PlaywrightTestConfig = {
     fullyParallel: true,
     forbidOnly: !!process.env.CI,
     retries: process.env.CI ? 2 : 0,
@@ -34,4 +34,8 @@ export const shareConfigPlayWright:PlaywrightTestConfig={
             use: {...devices["Desktop Safari"]}
         }
     ]
+}
+
+module.exports = {
+    shareConfigPlayWright
 }
