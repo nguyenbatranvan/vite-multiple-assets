@@ -41,13 +41,6 @@ export default defineConfig({
                 reuseExistingServer: !process.env.CI,
                 stdout: "ignore",
                 stderr: "pipe"
-            },
-            {
-                command: "npm run build && npm run preview",
-                url: "http://localhost:3003",
-                reuseExistingServer: !process.env.CI,
-                stdout: "ignore",
-                stderr: "pipe"
             }
         ],
     testDir: "src/",
