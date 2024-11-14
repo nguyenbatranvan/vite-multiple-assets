@@ -1,6 +1,5 @@
 import {defineConfig, devices} from "@playwright/test";
 import {shareConfigPlayWright} from "../../../baseConfigPlayWight";
-
 export default defineConfig({
     ...shareConfigPlayWright,
 
@@ -39,5 +38,5 @@ export default defineConfig({
                 stderr: "pipe"
             }
         ],
-    testDir: "src/",
+    testDir: "./tests/",
 });

@@ -1,6 +1,6 @@
 import {PluginOption, defineConfig} from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import {DynamicPublicDirectory} from "vite-multiple-assets";
+import DynamicPublicDirectory from "vite-multiple-assets";
 
 export default defineConfig({
     build: {
@@ -25,10 +25,10 @@ export default defineConfig({
     root: __dirname,
     publicDir: false,
     server: {
-        port: 3000
+        port: 3003
     },
     preview: {
-        port: 3000
+        port: 3004
     },
     plugins: [
         react(),
