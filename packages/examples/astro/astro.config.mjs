@@ -11,7 +11,7 @@ export default defineConfig({
         port: 3004
     },
     integrations: [
-        astroMultipleAssets(["public2/**", {
+        astroMultipleAssets(["public/**", "{\x01,public2}/**", {
             input: "../../../{\x01,shared-assets}/**",
             output: "/shared/images",
             watch: true // default
