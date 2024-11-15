@@ -110,14 +110,20 @@ export async function getFiles(
         cloneOpts.markDirectories = false;
         cloneOpts.onlyFiles = false;
         cloneOpts.onlyDirectories = false;
+
     }
     const files = await fg.glob(__transformFiles, {
-        onlyFiles: false,
+        // onlyFiles: false,
+        ignore: [],
+        onlyFiles: true,
         onlyDirectories: false,
-        throwErrorOnBrokenSymbolicLink: true,
-        markDirectories: false,
+        markDirectories: true,
+        dot: true,
+        // onlyDirectories: false,
+        // markDirectories: false,
         ...cloneOpts,
         followSymbolicLinks: !opts.followSymbolicLinks,
+        throwErrorOnBrokenSymbolicLink: opts.followSymbolicLinks
     });
     // let symlinks: string[] = ;
     const mapper: IFilesMapper = {};
