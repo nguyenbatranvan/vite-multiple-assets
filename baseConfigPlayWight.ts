@@ -16,8 +16,23 @@ export const shareConfigPlayWright: PlaywrightTestConfig = {
         extraHTTPHeaders: {},
         trace: "on-first-retry"
     },
-
-    /* Configure projects for major browsers */
+    webServer:
+        [
+            {
+                command: "npm run dev",
+                url: "http://localhost:3003",
+                reuseExistingServer: !process.env.CI,
+                stdout: "ignore",
+                stderr: "pipe"
+            },
+            {
+                command: "npm run build && npm run preview",
+                url: "http://localhost:3004",
+                reuseExistingServer: !process.env.CI,
+                stdout: "ignore",
+                stderr: "pipe"
+            }
+        ],
     projects: [
         {
             name: "chromium",

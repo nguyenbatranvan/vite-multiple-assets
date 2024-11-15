@@ -11,9 +11,10 @@ function App() {
         <>
             <div>
                 <a href="https://vitejs.dev" target="_blank">
-                    <img aria-label={"logo-assets"} src={"/shared/images/vite.svg"} className="logo" alt="Vite logo"/>
-                    <img aria-label={"img-base"} src={"/images/settings.png"} className="logo" alt="Vite logo"/>
-                    <img aria-label={"img-base-with-parent"} src={"/public2/images/settings.png"} className="logo"
+                    <img aria-label={"logo-assets"} src={"/base/shared/images/vite.svg"} className="logo"
+                         alt="Vite logo"/>
+                    <img aria-label={"img-base"} src={"/base/images/settings.png"} className="logo" alt="Vite logo"/>
+                    <img aria-label={"img-base-with-parent"} src={"/base/public2/images/settings.png"} className="logo"
                          alt="Vite logo"/>
                     {/*<img aria-label={"logo-assets-symlink"} src={"/shared/images/change.png"} className="logo" alt="Vite logo"/>*/}
                 </a>
