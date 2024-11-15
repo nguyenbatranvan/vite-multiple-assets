@@ -117,6 +117,7 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
             // NOTE: handle "%2E%2E/%2E%2E/some/file.txt" for relative backward "../../some/file.txt"
 
 
+
             const pathname = new URL(req.originalUrl ?? "", `http://${req.headers.host}`).pathname.slice(1);
             let file = fileObject[removeViteBase(pathname, base)] ?? fileObject[removeViteBase(decodeURIComponent(pathname), base)];
             if (file) {

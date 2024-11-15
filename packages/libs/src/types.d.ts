@@ -21,6 +21,7 @@ export type IObjectAssets = {
 
 export type TValueMapper = Pick<IObjectAssets, 'output'> & {
     path: string;
+    root?: string;
 }
 export type IAssets = (string | IObjectAssets)[]; // | string | (IConfigExtend & { assets: string | string[]; })[];
 export type IFilesMapper = Partial<Record<string, TValueMapper>>; // STUB: { baseTransformedFilePath: toAbsolutePath }
@@ -73,7 +74,7 @@ export interface ICacheConfig {
 }
 
 export interface IConfig extends IConfigExtend,
-    Partial<Pick<Options, "onlyFiles" | "onlyDirectories" | "cwd" | "markDirectories">> {
+    Partial<Pick<Options, "onlyFiles" | "onlyDirectories" | "cwd" | "markDirectories" | 'followSymbolicLinks'>> {
     __dst?: string; // NOTE: internal destination from parsing rollup write bundlers nor vite config.
     mimeTypes?: IMIME;
     ssr?: boolean;
