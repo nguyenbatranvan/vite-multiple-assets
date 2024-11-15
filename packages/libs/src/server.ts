@@ -56,19 +56,18 @@ function handleWriteToServe(res: http.ServerResponse, req: IncomingMessage, cont
 
 function handleRestartChangFolder(watchPaths: string[], server: ViteDevServer) {
     const wp = new Watchpack({
-        aggregateTimeout:10,
+        aggregateTimeout: 10,
         followSymlinks: true,
     });
     wp.watch({
-        directories:watchPaths,
+        directories: watchPaths,
         startTime: Date.now() - 10000
     })
-    wp.on('change',()=>{
-        console.log('ccc')
+    wp.on('change', () => {
         server.restart()
     })
 
-    wp.on('remove',()=>{
+    wp.on('remove', () => {
         server.restart()
     })
 
@@ -85,6 +84,23 @@ function handleRestartChangFolder(watchPaths: string[], server: ViteDevServer) {
 
 }
 
+function removeViteBase(path: string, base: string) {
+    const regex = new RegExp(`/?${base}`);
+    return path.replace(regex, '');
+}
+
+function replaceStartCharacter(path: string, character: string) {
+    try {
+        if (path.startsWith(character)) {
+            return path.replace(character, "");
+        }
+        return path;
+    } catch (e) {
+        return path;
+    }
+
+}
+
 export async function ServerMiddleWare(payload: IParameterViteServe) {
     const {server, assets, options} = payload;
     const {mimeTypes: types = {}, ssr, cacheOptions = {}} = options || {}
@@ -93,6 +109,7 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
     const {mapper: fileObject, watchPaths} = await getFiles(assets, payload.options, payload.viteConfig);
     let mergeMimeTypes: Record<string, string | undefined> = {...mimeTypes, ...types}
     watchPaths?.length && handleRestartChangFolder(watchPaths, server);
+    const base = replaceStartCharacter(payload.viteConfig?.base, '/');
     return () => {
         server.middlewares.use(async (req, res, next) => {
             // NOTE: remove first slash. url always forward slash.
@@ -101,7 +118,7 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
 
 
             const pathname = new URL(req.originalUrl ?? "", `http://${req.headers.host}`).pathname.slice(1);
-            let file = fileObject[pathname] ?? fileObject[decodeURIComponent(pathname)];
+            let file = fileObject[removeViteBase(pathname, base)] ?? fileObject[removeViteBase(decodeURIComponent(pathname), base)];
             if (file) {
                 const extension = file.path.substring(file.path.lastIndexOf("."));
                 const contentType = mergeMimeTypes[extension] || getContentType(file.path) || mergeMimeTypes[".html"] || (getContentType(".html") as string);
