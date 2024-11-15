@@ -34,13 +34,18 @@ export function replacePosixSep(value: string) {
     return value.replaceAll(sep, posixSep);
 }
 
+export const checkSymLink = (path: string) => {
+    try {
+        return fs.lstatSync(path).isSymbolicLink();
+    } catch (error) {
+        // console.error(`Error ${entry}:`, error);
+        return false;
+    }
+}
 export const findSymlinks = (entries: string[]) => {
-    return entries.filter(entry => {
-        try {
-            return fs.lstatSync(entry).isSymbolicLink();
-        } catch (error) {
-            // console.error(`Error ${entry}:`, error);
-            return false;
-        }
-    });
+    return entries.filter(checkSymLink);
+}
+
+export function readSymlink(path: string, cb?: (err: NodeJS.ErrnoException | null, linkString: string) => void) {
+    fs.readlink(path, (err, linkString) => cb?.(err, linkString))
 }

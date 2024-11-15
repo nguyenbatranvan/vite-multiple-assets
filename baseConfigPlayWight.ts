@@ -1,5 +1,4 @@
-import {PlaywrightTestConfig} from "playwright/types/test";
-import {devices} from "@playwright/test";
+import {devices, type PlaywrightTestConfig} from "@playwright/test";
 
 export const shareConfigPlayWright: PlaywrightTestConfig = {
     fullyParallel: true,
@@ -8,7 +7,7 @@ export const shareConfigPlayWright: PlaywrightTestConfig = {
     workers: process.env.CI ? 1 : undefined,
     reporter: "html",
     use: {
-        baseURL: "http://localhost:3004",
+        baseURL: "http://localhost:3003",
         headless: true,
         ignoreHTTPSErrors: true,
         screenshot: "only-on-failure",
@@ -18,13 +17,13 @@ export const shareConfigPlayWright: PlaywrightTestConfig = {
     },
     webServer:
         [
-            // {
-            //     command: "npm run dev",
-            //     url: "http://localhost:3003",
-            //     reuseExistingServer: !process.env.CI,
-            //     stdout: "ignore",
-            //     stderr: "pipe"
-            // },
+            {
+                command: "npm run dev",
+                url: "http://localhost:3003",
+                reuseExistingServer: !process.env.CI,
+                stdout: "ignore",
+                stderr: "pipe"
+            },
             {
                 command: "npm run build && npm run preview",
                 url: "http://localhost:3004",

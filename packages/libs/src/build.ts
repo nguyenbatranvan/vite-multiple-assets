@@ -4,7 +4,14 @@ import {basename, dirname, isAbsolute, join, resolve, sep} from "path";
 import mm from "micromatch";
 import fg from "fast-glob";
 import {FDst, IAssets, IConfig, IFilesMapper, IObjectAssets, IViteResolvedConfig} from "./types";
-import {countParentDirectory, checkIsFolder, replacePosixSep, copyWithResolvedSymlinks, findSymlinks} from "./utils";
+import {
+    countParentDirectory,
+    checkIsFolder,
+    replacePosixSep,
+    copyWithResolvedSymlinks,
+    findSymlinks,
+    checkSymLink, readSymlink
+} from "./utils";
 
 // LINK https://nodejs.org/docs/latest/api/errors.html#common-system-errors
 export enum ErrorCode {
@@ -163,10 +170,11 @@ export async function getFiles(
         mapper[name] = {
             path: resolve(opts.cwd!, filepath),
             output,
+            isSymLink: opts.followSymbolicLinks ? checkSymLink(filepath):false,
             root: countParent ? resolve(opts.cwd!, joinPath) : ""
         }; // STUB: filepath MUST Absolute
     }
-    return {mapper, watchPaths, symlinks: opts.followSymbolicLinks ? findSymlinks(files) : []};
+    return {mapper, watchPaths};
 }
 
 
@@ -203,7 +211,7 @@ export async function buildMiddleWare(
                 if (reason.code == ErrorCode.EISDIR || reason.code == ErrorCode.ERR_FS_EISDIR)
                     return await fs.promises.mkdir(dstFile);
                 else if (reason.code == ErrorCode.ENOENT && reason.path && reason.dest) {
-                    fs.readlink(path, async (err, linkString) => {
+                    readSymlink(path,async (err, linkString)=>{
                         if (err) {
                             // console.error('Error reading symlink:', err);
                             // todo handle error here
@@ -211,6 +219,9 @@ export async function buildMiddleWare(
                             await copyWithResolvedSymlinks(resolve(root!, linkString), pathDst)
                         }
                     })
+                    // fs.readlink(path, async (err, linkString) => {
+                    //
+                    // })
                 } else
                     throw reason;
             });
