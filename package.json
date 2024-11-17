@@ -12,6 +12,7 @@
     "dev": "npx lerna run dev --scope=react",
     "e2e-react": "npx lerna run e2e --scope=react",
     "e2e-astro": "npx lerna run e2e --scope=astro",
+    "e2e-vue3": "npx lerna run e2e --scope=vue3",
     "vue": "npx lerna run dev --scope=vue3",
     "astro": "npx lerna run dev --scope=astro",
     "solid": "npx lerna run dev --scope=solid",

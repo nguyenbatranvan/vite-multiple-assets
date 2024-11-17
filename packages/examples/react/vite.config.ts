@@ -4,6 +4,9 @@ import DynamicPublicDirectory from "vite-multiple-assets";
 
 export default defineConfig({
     base: "/base/",
+    resolve: {
+        preserveSymlinks: true,
+    },
     build: {
         rollupOptions: {
             output: {
@@ -41,6 +44,7 @@ export default defineConfig({
                 watch: true // default
             }, "public/**", "{\x01,public2}/**"], {
             ssr: false,
+            followSymbolicLinks: true
         }) as PluginOption,
     ],
 })

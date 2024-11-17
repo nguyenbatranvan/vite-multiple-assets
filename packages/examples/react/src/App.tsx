@@ -16,7 +16,7 @@ function App() {
                     <img aria-label={"img-base"} src={"/base/images/settings.png"} className="logo" alt="Vite logo"/>
                     <img aria-label={"img-base-with-parent"} src={"/base/public2/images/settings.png"} className="logo"
                          alt="Vite logo"/>
-                    {/*<img aria-label={"logo-assets-symlink"} src={"/shared/images/change.png"} className="logo" alt="Vite logo"/>*/}
+                    <img aria-label={"logo-assets-symlink"} src={"/base/shared/images/change1.png"} className="logo" alt="Vite logo"/>
                 </a>
                 <a href="https://react.dev" target="_blank">
                     <img src={reactLogo} className="logo react" alt="React logo"/>

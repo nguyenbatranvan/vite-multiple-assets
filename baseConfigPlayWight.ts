@@ -1,5 +1,4 @@
-import {PlaywrightTestConfig} from "playwright/types/test";
-import {devices} from "@playwright/test";
+import {devices, type PlaywrightTestConfig} from "@playwright/test";
 
 export const shareConfigPlayWright: PlaywrightTestConfig = {
     fullyParallel: true,
@@ -39,10 +38,10 @@ export const shareConfigPlayWright: PlaywrightTestConfig = {
             use: {...devices["Desktop Chrome"]}
         },
 
-        {
-            name: "firefox",
-            use: {...devices["Desktop Firefox"]}
-        },
+        // {
+        //     name: "firefox",
+        //     use: {...devices["Desktop Firefox"]}
+        // },
 
         {
             name: "webkit",

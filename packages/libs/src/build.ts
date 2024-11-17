@@ -1,15 +1,23 @@
-import fs from "fs/promises";
+import fs from "fs";
 import type {NormalizedOutputOptions} from "rollup";
-import {isAbsolute, dirname, sep, join, resolve, basename} from "path";
-import {sep as posixSep} from "path/posix"; // NOTE: use posix for relative transformation
+import {basename, dirname, isAbsolute, join, resolve, sep} from "path";
 import mm from "micromatch";
 import fg from "fast-glob";
 import {FDst, IAssets, IConfig, IFilesMapper, IObjectAssets, IViteResolvedConfig} from "./types";
+import {
+    countParentDirectory,
+    checkIsFolder,
+    replacePosixSep,
+    copyWithResolvedSymlinks,
+    findSymlinks,
+    checkSymLink, readSymlink
+} from "./utils";
 
 // LINK https://nodejs.org/docs/latest/api/errors.html#common-system-errors
 export enum ErrorCode {
     EISDIR = "EISDIR",
     ERR_FS_EISDIR = "ERR_FS_EISDIR",
+    ENOENT = "ENOENT"
 }
 
 // TODO: make JSDoc
@@ -82,6 +90,7 @@ function transformFiles(data: IAssets, opts?: IConfig) {
             const {watch, input} = item;
             watch && watchPaths.push(resolve(cwd!, fg.sync(input.replace('**', ""), {
                 onlyFiles: false,
+                followSymbolicLinks: true
             })[0]))
             __files.push(input)
             __data.push(item);
@@ -103,15 +112,27 @@ export async function getFiles(
 ) {
     files_ = files_ || [];
     const {files: __transformFiles, data, watchPaths} = transformFiles(files_, opts);
+    const cloneOpts = {...opts};
+    if (opts.followSymbolicLinks) {
+        cloneOpts.markDirectories = false;
+        cloneOpts.onlyFiles = false;
+        cloneOpts.onlyDirectories = false;
+
+    }
     const files = await fg.glob(__transformFiles, {
+        // onlyFiles: false,
         ignore: [],
         onlyFiles: true,
         onlyDirectories: false,
         markDirectories: true,
         dot: true,
-        ...opts,
-        absolute: false, // STUB: MUST be Relative to match as close as possible to the pattern
+        // onlyDirectories: false,
+        // markDirectories: false,
+        ...cloneOpts,
+        followSymbolicLinks: !opts.followSymbolicLinks,
+        throwErrorOnBrokenSymbolicLink: opts.followSymbolicLinks
     });
+    // let symlinks: string[] = ;
     const mapper: IFilesMapper = {};
     for (const filepath of files) {
         // STUB: formerly to modify filepath to be relative and normalization, now leave as if for future modifying condition
@@ -145,17 +166,26 @@ export async function getFiles(
         const indexMatch = data.findIndex(item => mm.isMatch(filepath, item.input));
         const output = data[indexMatch]?.output
         name = output ? replacePosixSep(join(output.replace(/^\/+/, ''), basename(filepath))) : _dstFile;
+        const {countParent, joinPath} = countParentDirectory(filepath);
         mapper[name] = {
             path: resolve(opts.cwd!, filepath),
-            output
+            output,
+            isSymLink: opts.followSymbolicLinks ? checkSymLink(filepath):false,
+            root: countParent ? resolve(opts.cwd!, joinPath) : ""
         }; // STUB: filepath MUST Absolute
     }
     return {mapper, watchPaths};
 }
 
-function replacePosixSep(value: string) {
-    return value.replaceAll(sep, posixSep);
-}
+
+// async function createSymlinkFolder(dirPath: string, symlinkPath: string) {
+//     const check = await checkIsFolder(dirPath)
+//     fs.symlink(dirPath, symlinkPath, check ? 'dir' : 'file', (err) => {
+//         if (err) {
+//             return console.error('Error creating symlink:', err);
+//         }
+//     });
+// }
 
 export async function buildMiddleWare(
     writeBundleOptions: NormalizedOutputOptions,
@@ -165,17 +195,37 @@ export async function buildMiddleWare(
 ) {
     const {mapper} = await getFiles(assets, opts, viteConfig, writeBundleOptions);
     for (const [_dstFile, filepath] of Object.entries(mapper)) {
-        const {output, path} = filepath!;
+        const {output, path, root} = filepath!;
         // STUB: `dstFile` must be absolute.
         const dstFile = isAbsolute(_dstFile) ? _dstFile : join(opts.__dst!, output || _dstFile);
         const pathDst = output ? join(dstFile, basename(path)) : dstFile;
+        const dirnamePathDst = dirname(pathDst);
+
         // STUB: using chain promise to handle further condition and more convenience
-        await fs.mkdir(dirname(pathDst), {recursive: true})
-            .then(() => fs.copyFile(path!, pathDst))
+        await fs.promises.mkdir(dirnamePathDst, {recursive: true})
+            .then(async () => {
+                const check = await checkIsFolder(path)
+                return !check ? fs.promises.copyFile(path!, pathDst) : null
+            })
             .catch(async (reason) => { // FIXME: no .code in Error interface of nodejs. Need find the right interface.
                 if (reason.code == ErrorCode.EISDIR || reason.code == ErrorCode.ERR_FS_EISDIR)
-                    return await fs.mkdir(dstFile);
-                else throw reason;
+                    return await fs.promises.mkdir(dstFile);
+                else if (reason.code == ErrorCode.ENOENT && reason.path && reason.dest) {
+                    readSymlink(path,async (err, linkString)=>{
+                        if (err) {
+                            // console.error('Error reading symlink:', err);
+                            // todo handle error here
+                        } else {
+                            await copyWithResolvedSymlinks(resolve(root!, linkString), pathDst)
+                        }
+                    })
+                    // fs.readlink(path, async (err, linkString) => {
+                    //
+                    // })
+                } else
+                    throw reason;
             });
     }
 }
+
+
