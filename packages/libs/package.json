@@ -4,6 +4,7 @@
   "description": "Multiple public asset directories for vite",
   "author": "Van nguyen ba tran",
   "license": "MIT",
+  "private": false,
   "sideEffects": false,
   "repository": {
     "type": "git",
