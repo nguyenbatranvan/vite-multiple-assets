@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react-swc'
 import DynamicPublicDirectory from "vite-multiple-assets";
 
 export default defineConfig({
-    base: "./",
+    base: "/base/",
     resolve: {
         preserveSymlinks: true,
     },

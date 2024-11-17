@@ -24,6 +24,8 @@ jobs:
         run: npm run e2e-react
       - name: Run Test load multiple assets by Astro App
         run: npm run e2e-astro
+      - name: Run Test load multiple assets by Vue3 App
+        run: npm run e2e-vue
       - uses: actions/upload-artifact@v4
         if: always()
         with:
