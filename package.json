@@ -19,6 +19,7 @@
     "build": "lerna run --parallel build",
     "preview": "lerna run --parallel preview",
     "publish": "lerna run --parallel build-npm",
+    "public": "lerna run --parallel publish",
     "e2e": "npx playwright test"
   },
   "devDependencies": {
