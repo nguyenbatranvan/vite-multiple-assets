@@ -12,7 +12,7 @@ export default defineConfig({
     },
     integrations: [
         astroMultipleAssets(["public/**", "{\x01,public2}/**", {
-            input: "../../../{\x01,shared-assets}/**",
+            input: "../../../shared-assets/**",
             output: "/shared/images",
             watch: true // default
         }])

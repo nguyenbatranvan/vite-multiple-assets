@@ -11,14 +11,14 @@ export default defineConfig({
         port: 3004
     },
     plugins: [vue({
-        template:{
-            transformAssetUrls:{
+        template: {
+            transformAssetUrls: {
                 img: [''],
             }
         }
-    }),DynamicPublicDirectory([
+    }), DynamicPublicDirectory([
         {
-            input: "../../../{\x01,shared-assets}/**",
+            input: "../../../shared-assets/**",
             output: "/shared/images",
             watch: true // default
         }, "public/**", "{\x01,public2}/**"], {
