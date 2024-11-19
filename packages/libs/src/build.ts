@@ -132,6 +132,7 @@ export async function getFiles(
         followSymbolicLinks: !opts.followSymbolicLinks,
         throwErrorOnBrokenSymbolicLink: opts.followSymbolicLinks
     });
+
     // let symlinks: string[] = ;
     const mapper: IFilesMapper = {};
     for (const filepath of files) {
@@ -164,13 +165,17 @@ export async function getFiles(
 
         // STUB: this intentionally left for future extentional purpose
         const indexMatch = data.findIndex(item => mm.isMatch(filepath, item.input));
-        const output = data[indexMatch]?.output
-        name = output ? replacePosixSep(join(output.replace(/^\/+/, ''), basename(filepath))) : _dstFile;
+        const dataMatch = data[indexMatch];
+        const {output = "", flatten = false} = dataMatch || {};
+        // const output = data[indexMatch]?.output
+        // const flatten =
+        const replaceOutput = output.replace(/^\/+/, '');
+        name = output ? replacePosixSep(join(replaceOutput, flatten ? basename(filepath) : _dstFile)) : _dstFile;
         const {countParent, joinPath} = countParentDirectory(filepath);
         mapper[name] = {
             path: resolve(opts.cwd!, filepath),
-            output,
-            isSymLink: opts.followSymbolicLinks ? checkSymLink(filepath):false,
+            output: dirname(name),
+            isSymLink: opts.followSymbolicLinks ? checkSymLink(filepath) : false,
             root: countParent ? resolve(opts.cwd!, joinPath) : ""
         }; // STUB: filepath MUST Absolute
     }
@@ -211,7 +216,7 @@ export async function buildMiddleWare(
                 if (reason.code == ErrorCode.EISDIR || reason.code == ErrorCode.ERR_FS_EISDIR)
                     return await fs.promises.mkdir(dstFile);
                 else if (reason.code == ErrorCode.ENOENT && reason.path && reason.dest) {
-                    readSymlink(path,async (err, linkString)=>{
+                    readSymlink(path, async (err, linkString) => {
                         if (err) {
                             // console.error('Error reading symlink:', err);
                             // todo handle error here

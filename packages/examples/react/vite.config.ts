@@ -39,9 +39,9 @@ export default defineConfig({
         // if exclude shared-assets use ../../../shared-assets/**
         DynamicPublicDirectory([
             {
-                input: "../../../{\x01,shared-assets}/**",
+                input: "../../../shared-assets/**",
                 output: "/shared/images",
-                watch: true // default
+                watch: true, // default
             }, "public/**", "{\x01,public2}/**"], {
             ssr: false,
             followSymbolicLinks: true
