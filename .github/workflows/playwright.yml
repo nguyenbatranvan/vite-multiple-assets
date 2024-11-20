@@ -15,17 +15,17 @@ jobs:
           node-version: lts/*
 
       - name: Install deps
-        run: npm install --frozen-lockfile
+        run: pnpm install
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Build libs
-        run: npm run publish
+      - name: Build lib vite multiple assets
+        run: pnpm run publish vite-multiple-assets
       - name: Run Test load multiple assets by React App
-        run: npm run e2e-react
+        run: pnpm run e2e react
       - name: Run Test load multiple assets by Astro App
-        run: npm run e2e-astro
+        run: pnpm run e2e astro
       - name: Run Test load multiple assets by Vue3 App
-        run: npm run e2e-vue3
+        run: pnpm run e2e vue3
       - uses: actions/upload-artifact@v4
         if: always()
         with:
