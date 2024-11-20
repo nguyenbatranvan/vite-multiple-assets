@@ -13,7 +13,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: lts/*
-
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+          standalone: true
+          dest: ~/setup-pnpm
       - name: Install deps
         run: pnpm install
       - name: Install Playwright Browsers
