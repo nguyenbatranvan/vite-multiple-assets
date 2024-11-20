@@ -15,7 +15,7 @@ jobs:
           node-version: lts/*
       - uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 9.13.2
           run_install: false
           standalone: true
           dest: ~/setup-pnpm
