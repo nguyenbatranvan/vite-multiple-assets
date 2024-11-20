@@ -24,7 +24,7 @@ jobs:
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
       - name: Build lib vite multiple assets
-        run: pnpm run publish vite-multiple-assets
+        run: pnpm run build vite-multiple-assets
       - name: Run Test load multiple assets by React App
         run: pnpm run e2e react
       - name: Run Test load multiple assets by Astro App
