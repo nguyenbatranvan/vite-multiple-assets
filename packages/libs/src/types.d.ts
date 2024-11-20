@@ -17,12 +17,13 @@ export type IObjectAssets = {
     input: string;
     output: string;
     watch?: boolean;
+    flatten?: boolean
 }
 
 export type TValueMapper = Pick<IObjectAssets, 'output'> & {
     path: string;
     root?: string;
-    isSymLink?:boolean
+    isSymLink?: boolean
 }
 export type IAssets = (string | IObjectAssets)[]; // | string | (IConfigExtend & { assets: string | string[]; })[];
 export type IFilesMapper = Partial<Record<string, TValueMapper>>; // STUB: { baseTransformedFilePath: toAbsolutePath }

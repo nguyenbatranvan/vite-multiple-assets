@@ -16,6 +16,12 @@ test.describe('Test load multiple assets', () => {
         await expect(page.locator('[aria-label=img-base]')).not.toHaveJSProperty("naturalWidth", 0);
     })
 
+    test('Check loaded success image with sub-folder output', async ({page}) => {
+        await expect(page.locator('[aria-label=img-output-subfolder]')).not.toHaveJSProperty("naturalWidth", 0);
+    })
+    test('Check loaded success image with nested sub-folder output', async ({page}) => {
+        await expect(page.locator('[aria-label=img-output-nested-subfolder]')).not.toHaveJSProperty("naturalWidth", 0);
+    })
     test('Check loaded success image with parent folder', async ({page}) => {
         await expect(page.locator('[aria-label=img-base-with-parent]')).not.toHaveJSProperty("naturalWidth", 0);
     })
