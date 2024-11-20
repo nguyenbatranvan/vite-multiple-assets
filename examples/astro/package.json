@@ -1,6 +1,5 @@
 {
   "name": "astro",
-  "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
@@ -16,6 +15,7 @@
     "typescript": "^5.5.4"
   },
   "devDependencies": {
+    "playwright-config": "workspace:*",
     "vite-multiple-assets": "workspace:*"
   }
 }

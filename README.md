@@ -1,3 +1,7 @@
+# Document
+
+[Visit website](https://nguyenbatranvan.github.io/vite-multiple-assets-doc/)
+
 # Setup
 
 `vite-multiple-assets` support vite to run with multiple directory public directory.
@@ -154,6 +158,7 @@ This character is used to specify whether you want the output to include the cur
 or not.
 
 **I have `shared-assets` folder**:
+
 ```tree
 .
 ├── shared-assets
@@ -183,6 +188,7 @@ DynamicPublicDirectory(["{\x01, shared-assets}/**"])
 ```tsx
 <img src="/shared-assets/image.png"/>
 ```
+
 #### Using outside `\x01`
 
 ```ts

@@ -35,9 +35,9 @@
   "scripts": {
     "build-npm": "rm -rf dist && tsup src/index.ts --dts --format cjs,esm",
     "build-npm-win32": "rmdir /S /Q dist && tsup src/index.ts --dts --format cjs,esm",
-    "build": "npm run build-npm",
+    "build": "pnpm run build-npm",
     "publish": "npm publish --access public",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm run build"
   },
   "keywords": [
     "vite-multiple-assets",
