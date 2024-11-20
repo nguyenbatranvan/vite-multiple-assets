@@ -28,6 +28,10 @@ export type TValueMapper = Pick<IObjectAssets, 'output'> & {
 export type IAssets = (string | IObjectAssets)[]; // | string | (IConfigExtend & { assets: string | string[]; })[];
 export type IFilesMapper = Partial<Record<string, TValueMapper>>; // STUB: { baseTransformedFilePath: toAbsolutePath }
 
+export type TReturnGetFile = {
+    mapper?: IFilesMapper;
+    watchPaths?: string[]
+}
 export type IMIME = Record<string, string>;
 
 /**
@@ -81,6 +85,7 @@ export interface IConfig extends IConfigExtend,
     mimeTypes?: IMIME;
     ssr?: boolean;
     cacheOptions?: ICacheConfig;
+    needTransformBaseCss?: boolean;
 }
 
 export interface IParameterViteServe {

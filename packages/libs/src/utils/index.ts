@@ -4,3 +4,5 @@ export {checkIsFolder} from "./checkIsFolder"
 export {
     replacePosixSep, checkSymLink, readSymlink, copyWithResolvedSymlinks, findSymlinks
 } from "./copyWithResolvedSymlinks"
+export {replaceStartCharacter, removeViteBase} from "./viteBase"
+export {handleMatchFileFromAssets} from "./handleMatchFileFromAssets"

@@ -1,9 +1,14 @@
 import type {PluginOption, ViteDevServer} from "vite";
 import {ServerMiddleWare} from "./server";
 import {AstroIntegration} from "./astroIntegration";
-import {buildMiddleWare} from "./build";
-import type {IAssets, IConfig, IViteResolvedConfig} from "./types";
+import {buildMiddleWare, getFiles} from "./build";
+import {IAssets, IConfig, IViteResolvedConfig, TReturnGetFile} from "./types";
 import type {NormalizedOutputOptions} from "rollup";
+import {handleMatchFileFromAssets, replacePosixSep, replaceStartCharacter} from "./utils";
+import {join} from "path";
+
+let mapper: TReturnGetFile;
+let viteBase: string;
 
 // FIXME: types of writeBuldeOptions is not match when developing in PNPM
 export function resolveInternalConfig({opts, writeBundleOptions, viteConfig, force}: {
@@ -38,7 +43,6 @@ export default function DynamicPublicDirectory(assets: IAssets, opts: IConfig = 
     let viteConfig: IViteResolvedConfig;
 
     resolveInternalConfig({opts});
-
     return {
         async configureServer(server: ViteDevServer) {
             return await ServerMiddleWare({server, assets, options: opts, viteConfig})
@@ -48,10 +52,35 @@ export default function DynamicPublicDirectory(assets: IAssets, opts: IConfig = 
             resolveInternalConfig({opts, viteConfig});
         },
         async writeBundle(writeBundleOptions) {
-            // @ts-ignore
             resolveInternalConfig({opts, viteConfig, writeBundleOptions});
-            // @ts-ignore
             await buildMiddleWare(writeBundleOptions, assets, opts, viteConfig)
+        },
+        transform: async (code, id) => {
+            if (!opts.needTransformBaseCss) {
+                return null;
+            }
+            if (!mapper) {
+                viteBase = viteConfig.base;
+                mapper = await getFiles(assets, opts, viteConfig);
+            }
+            if (/\.(css|scss|sass|less|styl|stylus)$/.test(id)) {
+                return {
+                    code: code.replace(/url\(["']?([^"')]+)["']?\)/g, (match, url) => {
+                        // const regex = new RegExp(`/?${viteBase}`);
+                        // const matchers = url.match(regex);
+                        // if (!matchers && mapper.mapper![replaceStartCharacter(url, '/')]) {
+                        //     return match.replace(url, replacePosixSep(join('/', viteBase, url)));
+                        // }
+                        if (handleMatchFileFromAssets({
+                            viteBase, file: mapper, url
+                        })) {
+                            return match.replace(url, replacePosixSep(join('/', viteBase, url)))
+                        }
+                        return match
+                    })
+                };
+            }
+            return null;
         },
         name: "dynamic assets",
     };

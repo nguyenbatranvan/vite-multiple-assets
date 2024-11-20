@@ -28,4 +28,19 @@ test.describe('Test load multiple assets', () => {
     test('Check loaded success image symlink', async ({page}) => {
         await expect(page.locator('[aria-label=logo-assets-symlink]')).not.toHaveJSProperty("naturalWidth", 0);
     })
+
+    test('Check load success css background-image', async ({page}) => {
+        const body = await page.$('body');
+        const backgroundImage = await body!.evaluate((el) =>
+            window.getComputedStyle(el).getPropertyValue('background-image')
+        );
+        const imageUrl = backgroundImage.match(/url\("(.*)"\)/)?.[1];
+        if (imageUrl) {
+            const [response] = await Promise.all([
+                page.waitForResponse((res) => res.url() === imageUrl && res.status() === 200),
+                page.goto(imageUrl)
+            ]);
+            expect(response.status()).toBe(200);
+        }
+    })
 })
