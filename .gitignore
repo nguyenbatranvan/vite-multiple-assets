@@ -43,3 +43,5 @@ Thumbs.db
 .nx/cache
 test-results
 playwright-report
+
+.turbo
