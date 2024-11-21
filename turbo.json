@@ -2,7 +2,6 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
-
       "outputs": [
         ".next/**",
         "!.next/cache/**"
@@ -13,6 +12,8 @@
         "^check-types"
       ]
     },
+    "build-npm": {},
+    "local": {},
     "dev": {
       "dependsOn": [
         "^build"

@@ -10,7 +10,9 @@
     "build": "node scripts/run-build.js",
     "preview": "node scripts/run-preview.js",
     "publish": "node scripts/run-publish.js",
-    "gen": "npx turbo gen workspace"
+    "build-npm": "node scripts/tun-build-npm.js",
+    "gen": "npx turbo gen workspace",
+    "local": "act -P ubuntu-latest=-self-hosted"
   },
   "devDependencies": {
     "@playwright/test": "^1.49.0",
