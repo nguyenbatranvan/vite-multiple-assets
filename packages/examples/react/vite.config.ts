@@ -45,7 +45,7 @@ export default defineConfig({
             }, "public/**", "{\x01,public2}/**"], {
             ssr: false,
             needTransformBaseCss: true, // because in index.css there is url of image to convert add base of vite before it
-            followSymbolicLinks: true
+            followSymbolicLinks: true,
         }) as PluginOption,
     ],
 })

@@ -30,7 +30,7 @@ test.describe('Test load multiple assets', () => {
     })
 
     test('Check load success css background-image', async ({page}) => {
-        const body = await page.$('body');
+        const body = await page.$('.bg-image');
         const backgroundImage = await body!.evaluate((el) =>
             window.getComputedStyle(el).getPropertyValue('background-image')
         );
