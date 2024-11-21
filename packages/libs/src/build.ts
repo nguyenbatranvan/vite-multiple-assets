@@ -3,7 +3,7 @@ import type {NormalizedOutputOptions} from "rollup";
 import {basename, dirname, isAbsolute, join, resolve, sep} from "path";
 import mm from "micromatch";
 import fg from "fast-glob";
-import {FDst, IAssets, IConfig, IFilesMapper, IObjectAssets, IViteResolvedConfig} from "./types";
+import {FDst, IAssets, IConfig, IFilesMapper, IObjectAssets, IViteResolvedConfig, TReturnGetFile} from "./types";
 import {
     countParentDirectory,
     checkIsFolder,
@@ -109,7 +109,7 @@ export async function getFiles(
     opts: IConfig = {},
     viteConfig: IViteResolvedConfig,
     writeBundleOptions?: NormalizedOutputOptions
-) {
+): Promise<TReturnGetFile> {
     files_ = files_ || [];
     const {files: __transformFiles, data, watchPaths} = transformFiles(files_, opts);
     const cloneOpts = {...opts};
@@ -200,7 +200,7 @@ export async function buildMiddleWare(
     viteConfig: IViteResolvedConfig,
 ) {
     const {mapper} = await getFiles(assets, opts, viteConfig, writeBundleOptions);
-    for (const [_dstFile, filepath] of Object.entries(mapper)) {
+    for (const [_dstFile, filepath] of Object.entries(mapper!)) {
         const {output, path, root} = filepath!;
         // STUB: `dstFile` must be absolute.
         const dstFile = isAbsolute(_dstFile) ? _dstFile : join(opts.__dst!, output || _dstFile);

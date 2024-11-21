@@ -1,6 +1,6 @@
 import {PluginOption, defineConfig} from 'vite'
+import react from '@vitejs/plugin-react-swc'
 import {DynamicPublicDirectory} from "vite-multiple-assets";
-import react from "@vitejs/plugin-react-swc";
 
 export default defineConfig({
     base: "/base/",
@@ -35,16 +35,17 @@ export default defineConfig({
         port: 3004
     },
     plugins: [
-        react() as PluginOption,
+        react(),
         // if exclude shared-assets use ../../../shared-assets/**
         DynamicPublicDirectory([
             {
-                input: "../../shared-assets/**",
+                input: "../../../shared-assets/**",
                 output: "/shared/images",
                 watch: true, // default
             }, "public/**", "{\x01,public2}/**"], {
             ssr: false,
-            followSymbolicLinks: true
+            needTransformBaseCss: true, // because in index.css there is url of image to convert add base of vite before it
+            followSymbolicLinks: true,
         }) as PluginOption,
     ],
 })
