@@ -13,7 +13,7 @@
     "build-npm": "node scripts/run-build-npm.js",
     "gen": "npx turbo gen workspace",
     "lint": "node scripts/run-lint.js",
-    "format": "npx turbo run format --filter=vite-multiple-assets",
+    "format": "node scripts/run-format.js",
     "local": "act -P ubuntu-latest=-self-hosted"
   },
   "devDependencies": {
