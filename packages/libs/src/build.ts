@@ -171,7 +171,6 @@ export async function getFiles(
         // const flatten =
         const replaceOutput = output.replace(/^\/+/, '');
         name = output ? replacePosixSep(join(replaceOutput, flatten ? basename(filepath) : _dstFile)) : _dstFile;
-        console.log('ss',name)
         const {countParent, joinPath} = countParentDirectory(filepath);
         mapper[name] = {
             path: resolve(opts.cwd!, filepath),

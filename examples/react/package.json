@@ -10,6 +10,15 @@
     "e2e": "npx playwright test"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.13.5",
+    "@mantine/core": "^6.0.17",
+    "@mantine/hooks": "^6.0.17",
+    "@mantine/styles": "^6.0.22",
+    "@mantine/utils": "^6.0.22",
+    "@emotion/serialize": "^1.3.3",
+    "@floating-ui/react": "^0.26.28",
+    "@emotion/weak-memoize": "^0.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

@@ -24,9 +24,9 @@
 		"noFallthroughCasesInSwitch": true,
 		"experimentalDecorators": true,
 		"module": "ESNext",
-		"moduleResolution": "Bundler",
+		"moduleResolution": "Node",
 		"emitDecoratorMetadata": true,
 		"skipLibCheck": true,
-		"target": "ES2022"
+		"target": "ESNext"
 	}
 }
