@@ -136,8 +136,7 @@ export async function getFiles(
 	} = transformFiles(files_, opts);
 	const cloneOpts = {...opts};
 	if (opts.followSymbolicLinks) {
-		cloneOpts.markDirectories = false;
-		cloneOpts.onlyFiles = false;
+		cloneOpts.markDirectories = false;cloneOpts.onlyFiles = false;
 		cloneOpts.onlyDirectories = false;
 	}
 	const files = await fg.glob(__transformFiles, {
