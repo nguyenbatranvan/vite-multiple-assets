@@ -19,7 +19,7 @@
     "build": "lerna run --parallel build",
     "preview": "lerna run --parallel preview",
     "publish": "lerna run --parallel build-npm",
-    "public": "lerna run --parallel publish",
+    "public": "lerna run publish --scope=vite-multiple-assets",
     "e2e": "npx playwright test"
   },
   "devDependencies": {
