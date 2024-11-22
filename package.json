@@ -10,8 +10,10 @@
     "build": "node scripts/run-build.js",
     "preview": "node scripts/run-preview.js",
     "publish": "node scripts/run-publish.js",
-    "build-npm": "node scripts/tun-build-npm.js",
+    "build-npm": "node scripts/run-build-npm.js",
     "gen": "npx turbo gen workspace",
+    "lint": "node scripts/run-lint.js",
+    "format": "node scripts/run-format.js",
     "local": "act -P ubuntu-latest=-self-hosted"
   },
   "devDependencies": {
@@ -19,6 +21,7 @@
     "@types/node": "^20.17.6",
     "playwright": "^1.49.0",
     "turbo": "^2.3.0",
+    "@biomejs/biome": "^1.9.4",
     "typescript": "^5.6.3",
     "vite": "^5.4.11"
   },

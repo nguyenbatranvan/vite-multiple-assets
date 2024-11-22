@@ -1,26 +1,31 @@
-name: Run test dev & production server load success image
+name: CI
 on:
   push:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
-    timeout-minutes: 60
+  lint:
+    name: run lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.13.2
-          run_install: false
-          standalone: true
-          dest: ~/setup-pnpm
-      - name: Install deps
-        run: pnpm install
+      - uses: ./.github/actions/setup-repo
+      - run: pnpm run lint
+  format:
+    name: run format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-repo
+      - run: pnpm run format
+  test:
+    timeout-minutes: 60
+    name: run e2e test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-repo
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
       - name: Build lib vite multiple assets

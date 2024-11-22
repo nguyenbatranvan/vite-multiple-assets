@@ -12,6 +12,8 @@
         "^check-types"
       ]
     },
+    "lint": {},
+    "format": {},
     "build-npm": {},
     "local": {},
     "dev": {

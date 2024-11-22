@@ -4,90 +4,117 @@ import {AstroIntegration} from "./astroIntegration";
 import {buildMiddleWare, getFiles} from "./build";
 import {IAssets, IConfig, IViteResolvedConfig, TReturnGetFile} from "./types";
 import type {NormalizedOutputOptions} from "rollup";
-import {handleMatchFileFromAssets, replacePosixSep, replaceStartCharacter} from "./utils";
+import {
+	handleMatchFileFromAssets,
+	replacePosixSep,
+	replaceStartCharacter
+} from "./utils";
 import {join} from "path";
 
 let mapper: TReturnGetFile;
 let viteBase: string;
 
 // FIXME: types of writeBuldeOptions is not match when developing in PNPM
-export function resolveInternalConfig({opts, writeBundleOptions, viteConfig, force}: {
-    opts: IConfig;
-    writeBundleOptions?: NormalizedOutputOptions;
-    viteConfig?: IViteResolvedConfig;
-    force?: "bundle" | "vite" | boolean;
+export function resolveInternalConfig({
+	opts,
+	writeBundleOptions,
+	viteConfig,
+	force
+}: {
+	opts: IConfig;
+	writeBundleOptions?: NormalizedOutputOptions;
+	viteConfig?: IViteResolvedConfig;
+	force?: "bundle" | "vite" | boolean;
 }) {
-    force ??= false;
-    opts ??= {};
-    opts.cacheOptions ??= {}
-    opts.ignore ??= [];
-    opts.onlyFiles ??= true;
-    opts.onlyDirectories ??= false;
-    opts.markDirectories ??= true;
-    opts.dot ??= true;
+	force ??= false;
+	opts ??= {};
+	opts.cacheOptions ??= {};
+	opts.ignore ??= [];
+	opts.onlyFiles ??= true;
+	opts.onlyDirectories ??= false;
+	opts.markDirectories ??= true;
+	opts.dot ??= true;
 
-    // STUB[epic-LEGACY-FIRST] formerly, this plugin using config from rollup instead of vite.
-    // TODO[epic-LEGACY-FIRST] for modern purpose, use resolved config from vite
-    if (writeBundleOptions || force == "bundle" || force == true) {
-        opts.__dst ??= (typeof opts.dst == "string" ? opts.dst : undefined) ?? writeBundleOptions?.dir ?? (force ? (viteConfig?.build.outDir ?? "./dist") : undefined);
-        if (!opts.__dst) throw new Error("options.dir is undefined");
-        opts.dst ??= opts.__dst;
-    }
+	// STUB[epic-LEGACY-FIRST] formerly, this plugin using config from rollup instead of vite.
+	// TODO[epic-LEGACY-FIRST] for modern purpose, use resolved config from vite
+	if (writeBundleOptions || force === "bundle" || force === true) {
+		opts.__dst ??=
+			(typeof opts.dst === "string" ? opts.dst : undefined) ??
+			writeBundleOptions?.dir ??
+			(force ? (viteConfig?.build.outDir ?? "./dist") : undefined);
+		if (!opts.__dst) throw new Error("options.dir is undefined");
+		opts.dst ??= opts.__dst;
+	}
 
-    if (viteConfig || force == "vite" || force == true) {
-        opts.cwd ??= viteConfig?.root ?? (force ? process.cwd() : undefined);
-    }
+	if (viteConfig || force === "vite" || force === true) {
+		opts.cwd ??= viteConfig?.root ?? (force ? process.cwd() : undefined);
+	}
 }
 
-export default function DynamicPublicDirectory(assets: IAssets, opts: IConfig = {}): PluginOption {
-    let viteConfig: IViteResolvedConfig;
+export default function DynamicPublicDirectory(
+	assets: IAssets,
+	opts: IConfig = {}
+): PluginOption {
+	let viteConfig: IViteResolvedConfig;
 
-    resolveInternalConfig({opts});
-    return {
-        async configureServer(server: ViteDevServer) {
-            return await ServerMiddleWare({server, assets, options: opts, viteConfig})
-        },
-        configResolved(config) {
-            viteConfig = config;
-            resolveInternalConfig({opts, viteConfig});
-        },
-        async writeBundle(writeBundleOptions) {
-            resolveInternalConfig({opts, viteConfig, writeBundleOptions});
-            await buildMiddleWare(writeBundleOptions, assets, opts, viteConfig)
-        },
-        transform: async (code, id) => {
-            if (!opts.needTransformBaseCss) {
-                return null;
-            }
-            if (!mapper) {
-                viteBase = viteConfig.base;
-                mapper = await getFiles(assets, opts, viteConfig);
-            }
-            if (/\.(css|scss|sass|less|styl|stylus)$/.test(id)) {
-                return {
-                    code: code.replace(/url\(["']?([^"')]+)["']?\)/g, (match, url) => {
-                        // const regex = new RegExp(`/?${viteBase}`);
-                        // const matchers = url.match(regex);
-                        // if (!matchers && mapper.mapper![replaceStartCharacter(url, '/')]) {
-                        //     return match.replace(url, replacePosixSep(join('/', viteBase, url)));
-                        // }
-                        if (handleMatchFileFromAssets({
-                            viteBase, file: mapper, url
-                        })) {
-                            return match.replace(url, replacePosixSep(join('/', viteBase, url)))
-                        }
-                        return match
-                    })
-                };
-            }
-            return null;
-        },
-        name: "dynamic assets",
-    };
+	resolveInternalConfig({opts});
+	return {
+		async configureServer(server: ViteDevServer) {
+			return await ServerMiddleWare({
+				server,
+				assets,
+				options: opts,
+				viteConfig
+			});
+		},
+		configResolved(config) {
+			viteConfig = config;
+			resolveInternalConfig({opts, viteConfig});
+		},
+		async writeBundle(writeBundleOptions) {
+			resolveInternalConfig({opts, viteConfig, writeBundleOptions});
+			await buildMiddleWare(writeBundleOptions, assets, opts, viteConfig);
+		},
+		transform: async (code, id) => {
+			if (!opts.needTransformBaseCss) {
+				return null;
+			}
+			if (!mapper) {
+				viteBase = viteConfig.base;
+				mapper = await getFiles(assets, opts, viteConfig);
+			}
+			if (/\.(css|scss|sass|less|styl|stylus)$/.test(id)) {
+				return {
+					code: code.replace(/url\(["']?([^"')]+)["']?\)/g, (match, url) => {
+						// const regex = new RegExp(`/?${viteBase}`);
+						// const matchers = url.match(regex);
+						// if (!matchers && mapper.mapper![replaceStartCharacter(url, '/')]) {
+						//     return match.replace(url, replacePosixSep(join('/', viteBase, url)));
+						// }
+						if (
+							handleMatchFileFromAssets({
+								viteBase,
+								file: mapper,
+								url
+							})
+						) {
+							return match.replace(
+								url,
+								replacePosixSep(join("/", viteBase, url))
+							);
+						}
+						return match;
+					})
+				};
+			}
+			return null;
+		},
+		name: "dynamic assets"
+	};
 }
 
 export {
-    DynamicPublicDirectory,
-    ServerMiddleWare,
-    AstroIntegration as astroMultipleAssets
-}
+	DynamicPublicDirectory,
+	ServerMiddleWare,
+	AstroIntegration as astroMultipleAssets
+};

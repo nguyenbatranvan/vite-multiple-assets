@@ -14,24 +14,24 @@ import type {NormalizedOutputOptions} from "rollup";
  *       For example `\x01`, `CON`, `NUL`, please see [this answer](https://stackoverflow.com/a/31976060).
  */
 export type IObjectAssets = {
-    input: string;
-    output: string;
-    watch?: boolean;
-    flatten?: boolean
-}
+	input: string;
+	output: string;
+	watch?: boolean;
+	flatten?: boolean;
+};
 
-export type TValueMapper = Pick<IObjectAssets, 'output'> & {
-    path: string;
-    root?: string;
-    isSymLink?: boolean
-}
+export type TValueMapper = Pick<IObjectAssets, "output"> & {
+	path: string;
+	root?: string;
+	isSymLink?: boolean;
+};
 export type IAssets = (string | IObjectAssets)[]; // | string | (IConfigExtend & { assets: string | string[]; })[];
 export type IFilesMapper = Partial<Record<string, TValueMapper>>; // STUB: { baseTransformedFilePath: toAbsolutePath }
 
 export type TReturnGetFile = {
-    mapper?: IFilesMapper;
-    watchPaths?: string[]
-}
+	mapper?: IFilesMapper;
+	watchPaths?: string[];
+};
 export type IMIME = Record<string, string>;
 
 /**
@@ -59,49 +59,63 @@ export type IMIME = Record<string, string>;
  * NOTE: Please ALWAYS use posix slash, rather than win32 backslash
  */
 export type FDst = (params: {
-    dst: string;
-    filepath: string;
-    baseFile: string;
-    dstFile: string; // NOTE: either absolut or non-slash on beginning path.
-    assets: IAssets;
-    writeBundleOptions?: NormalizedOutputOptions;
-    opts: IConfig;
-    viteConfig: IViteResolvedConfig;
-    __files: IFilesMapper; // NOTE: internal use to modify all compiled files entirely;
-                           // NOTE: user can return false and define its own compilation
+	dst: string;
+	filepath: string;
+	baseFile: string;
+	dstFile: string; // NOTE: either absolut or non-slash on beginning path.
+	assets: IAssets;
+	writeBundleOptions?: NormalizedOutputOptions;
+	opts: IConfig;
+	viteConfig: IViteResolvedConfig;
+	__files: IFilesMapper; // NOTE: internal use to modify all compiled files entirely;
+	// NOTE: user can return false and define its own compilation
 }) => string | false | void;
 
-export interface IConfigExtend extends Partial<Pick<Options, "ignore" | "dot">> {
-    dst?: string | FDst;
+export interface IConfigExtend
+	extends Partial<Pick<Options, "ignore" | "dot">> {
+	dst?: string | FDst;
 }
 
 export interface ICacheConfig {
-    [key: string]: string | number;
+	[key: string]: string | number;
 }
 
-export interface IConfig extends IConfigExtend,
-    Partial<Pick<Options, "onlyFiles" | "onlyDirectories" | "cwd" | "markDirectories" | 'followSymbolicLinks'>> {
-    __dst?: string; // NOTE: internal destination from parsing rollup write bundlers nor vite config.
-    mimeTypes?: IMIME;
-    ssr?: boolean;
-    cacheOptions?: ICacheConfig;
-    needTransformBaseCss?: boolean;
+export interface IConfig
+	extends IConfigExtend,
+		Partial<
+			Pick<
+				Options,
+				| "onlyFiles"
+				| "onlyDirectories"
+				| "cwd"
+				| "markDirectories"
+				| "followSymbolicLinks"
+			>
+		> {
+	__dst?: string; // NOTE: internal destination from parsing rollup write bundlers nor vite config.
+	mimeTypes?: IMIME;
+	ssr?: boolean;
+	cacheOptions?: ICacheConfig;
+	needTransformBaseCss?: boolean;
 }
 
 export interface IParameterViteServe {
-    server: ViteDevServer;
-    assets: IAssets;
-    options: IConfig;
-    viteConfig: IViteResolvedConfig;
+	server: ViteDevServer;
+	assets: IAssets;
+	options: IConfig;
+	viteConfig: IViteResolvedConfig;
 }
 
-export type IViteConfig = Exclude<NonNullable<PluginOption>, false | PluginOption[] | Promise<PluginOption>>;
+export type IViteConfig = Exclude<
+	NonNullable<PluginOption>,
+	false | PluginOption[] | Promise<PluginOption>
+>;
 export type IViteResolvedConfig1 = NonNullable<IViteConfig["configResolved"]>;
 // @ts-ignore
 export type IViteResolvedConfig = Parameters<IViteResolvedConfig1>[0];
 
 export interface IParameterViteServe {
-    server: ViteDevServer;
-    assets: string[];
-    options?: IConfig
+	server: ViteDevServer;
+	assets: string[];
+	options?: IConfig;
 }
