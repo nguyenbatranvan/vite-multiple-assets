@@ -14,6 +14,7 @@
     "gen": "npx turbo gen workspace",
     "lint": "node scripts/run-lint.js",
     "format": "node scripts/run-format.js",
+    "reformat": "node scripts/run-reformat.js",
     "local": "act -P ubuntu-latest=-self-hosted"
   },
   "devDependencies": {

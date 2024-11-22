@@ -1,4 +1,4 @@
-const {spawn} = require("node:child_process");
+const {spawn} = require("child_process");
 
 const args = process.argv.filter((item) => !item.includes("/"));
 const projectName = args[0];
@@ -28,7 +28,7 @@ function runScripts(mode, projects) {
     process.on('close', (code) => {
         if (code !== 0) {
             console.error(`Process exited with code ${code}`);
-            process.exit(code);
+            process.exit?.(code);
         }
     });
 }
