@@ -130,7 +130,8 @@ export async function getFiles(
 ): Promise<TReturnGetFile> {
 	files_ = files_ || [];
 	const {
-		files: __transformFiles, data,
+		files: __transformFiles,
+		data,
 		watchPaths
 	} = transformFiles(files_, opts);
 	const cloneOpts = {...opts};
