@@ -10,6 +10,7 @@ import {
 	replaceStartCharacter
 } from "./utils";
 import {join} from "path";
+import {isMatch} from "micromatch";
 
 let mapper: TReturnGetFile;
 let viteBase: string;
@@ -86,22 +87,11 @@ export default function DynamicPublicDirectory(
 			if (/\.(css|scss|sass|less|styl|stylus)$/.test(id)) {
 				return {
 					code: code.replace(/url\(["']?([^"')]+)["']?\)/g, (match, url) => {
-						// const regex = new RegExp(`/?${viteBase}`);
-						// const matchers = url.match(regex);
-						// if (!matchers && mapper.mapper![replaceStartCharacter(url, '/')]) {
-						//     return match.replace(url, replacePosixSep(join('/', viteBase, url)));
-						// }
 						if (
-							handleMatchFileFromAssets({
-								viteBase,
-								file: mapper,
-								url
-							})
+							!isMatch(url, `${viteBase}**`) &&
+							mapper.mapper![replaceStartCharacter(url, "/")]
 						) {
-							return match.replace(
-								url,
-								replacePosixSep(join("/", viteBase, url))
-							);
+							return match.replace(url, replacePosixSep(join(viteBase, url)));
 						}
 						return match;
 					})

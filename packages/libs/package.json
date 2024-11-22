@@ -34,7 +34,7 @@
 		"build-npm": "rm -rf dist && tsup src/index.ts --dts --format cjs,esm",
 		"build-npm-win32": "rmdir /S /Q dist && tsup src/index.ts --dts --format cjs,esm",
 		"build": "pnpm run build-npm",
-		"publish": "npm publish --access public",
+		"publish": "pnpm publish --access public",
 		"prepublishOnly": "pnpm run build",
 		"lint": "pnpm biome lint --error-on-warnings ./src",
 		"format": "pnpm biome format --error-on-warnings ./src",

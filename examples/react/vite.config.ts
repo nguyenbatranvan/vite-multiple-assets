@@ -9,6 +9,7 @@ export default defineConfig({
     },
     build: {
         rollupOptions: {
+            external:['.png'],
             output: {
                 chunkFileNames: 'assets/js/[name]-[hash].js',
                 entryFileNames: 'assets/js/[name]-[hash].js',
@@ -27,7 +28,6 @@ export default defineConfig({
         }
     },
     root: __dirname,
-    publicDir: false,
     server: {
         port: 3003
     },
@@ -39,8 +39,12 @@ export default defineConfig({
         // if exclude shared-assets use ../../../shared-assets/**
         DynamicPublicDirectory([
             {
+                input: "public/**",
+                output: "/images/assets-a"
+            },
+            {
                 input: "../../shared-assets/**",
-                output: "/shared/images",
+                output: "shared/images",
                 watch: true, // default
             }, "public/**", "{\x01,public2}/**"], {
             ssr: false,
