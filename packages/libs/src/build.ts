@@ -238,8 +238,10 @@ export async function buildMiddleWare(
 		// STUB: `dstFile` must be absolute.
 		const dstFile = isAbsolute(_dstFile)
 			? _dstFile
-			: join(opts.__dst!, output || _dstFile);
-		const pathDst = output ? join(dstFile, basename(path)) : dstFile;
+			: replacePosixSep(join(opts.__dst!, output || _dstFile));
+		const pathDst = output
+			? replacePosixSep(join(dstFile, basename(path)))
+			: dstFile;
 		const dirnamePathDst = dirname(pathDst);
 
 		// STUB: using chain promise to handle further condition and more convenience
