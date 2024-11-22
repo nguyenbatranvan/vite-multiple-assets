@@ -1,5 +1,5 @@
 import fs from "fs";
-import type {ICacheConfig, IConfig, IParameterViteServe, TValueMapper} from "./types";
+import type {ICacheConfig, IParameterViteServe, TValueMapper} from "./types";
 import mime from "mime-types";
 import http from "node:http";
 import type {IncomingMessage} from "http";
@@ -7,7 +7,7 @@ import {getFiles} from "./build";
 import {ViteDevServer} from "vite";
 import Watchpack from "watchpack"
 import {resolve} from "path";
-import {readSymlink} from "./utils";
+import {readSymlink, removeViteBase, replaceStartCharacter} from "./utils";
 
 
 const mimeTypes = {
@@ -92,22 +92,6 @@ function handleRestartChangFolder(watchPaths: string[], server: ViteDevServer) {
 
 }
 
-function removeViteBase(path: string, base: string) {
-    const regex = new RegExp(`/?${base}`);
-    return path.replace(regex, '');
-}
-
-function replaceStartCharacter(path: string, character: string) {
-    try {
-        if (path.startsWith(character)) {
-            return path.replace(character, "");
-        }
-        return path;
-    } catch (e) {
-        return path;
-    }
-
-}
 
 export async function ServerMiddleWare(payload: IParameterViteServe) {
     const {server, assets, options} = payload;
@@ -125,7 +109,7 @@ export async function ServerMiddleWare(payload: IParameterViteServe) {
             // NOTE: handle "%2E%2E/%2E%2E/some/file.txt" for relative backward "../../some/file.txt"
 
             const pathname = new URL(req.originalUrl ?? "", `http://${req.headers.host}`).pathname.slice(1);
-            let file = fileObject[removeViteBase(pathname, base)] ?? fileObject[removeViteBase(decodeURIComponent(pathname), base)];
+            let file = fileObject![removeViteBase(pathname, base)] ?? fileObject![removeViteBase(decodeURIComponent(pathname), base)];
 
             let path = file?.path!;
             if (file?.isSymLink) {

@@ -1,6 +1,6 @@
 import {PluginOption, defineConfig} from 'vite'
 import react from '@vitejs/plugin-react-swc'
-import DynamicPublicDirectory from "vite-multiple-assets";
+import {DynamicPublicDirectory} from "vite-multiple-assets";
 
 export default defineConfig({
     base: "/base/",
@@ -44,7 +44,8 @@ export default defineConfig({
                 watch: true, // default
             }, "public/**", "{\x01,public2}/**"], {
             ssr: false,
-            followSymbolicLinks: true
+            needTransformBaseCss: true, // because in index.css there is url of image to convert add base of vite before it
+            followSymbolicLinks: true,
         }) as PluginOption,
     ],
 })
