@@ -29,6 +29,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
+      - name: Show files
+        run: ls
       - name: Build lib vite multiple assets
         run: pnpm run build vite-multiple-assets
       - name: Install Playwright Browsers
