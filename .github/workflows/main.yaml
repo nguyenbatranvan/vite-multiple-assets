@@ -5,61 +5,46 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  build:
-    name: run build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-repo
-      - run: pnpm run build vite-multiple-assets
-      - uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist
-  lint:
-    name: run lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-repo
-      - run: pnpm run lint
-  format:
-    name: run format
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-repo
-      - run: pnpm run format
+    lint:
+      name: run lint
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: ./.github/actions/setup-repo
+        - run: pnpm run lint
+    format:
+      name: run format
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - uses: ./.github/actions/setup-repo
+        - run: pnpm run format
   test:
     timeout-minutes: 60
     name: run e2e test
-    needs: [ build ]
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ windows-latest ]
+        os: [windows-latest]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
-        with:
-          node-version: ${{ matrix.node_version }}
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist
-          path: dist
-#      - name: Build lib vite multiple assets
-#        run: pnpm run build vite-multiple-assets
+
+      - name: Build lib vite multiple assets
+        run: pnpm run build vite-multiple-assets
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
+
       - name: Run Test load multiple assets by React App
         run: pnpm run e2e react
       #      - name: Run Test load multiple assets by Astro App
       #        run: pnpm run e2e astro
       #      - name: Run Test load multiple assets by Vue3 App
       #        run: pnpm run e2e vue3
-#      - uses: actions/upload-artifact@v4
-#        if: always()
-#        with:
-#          name: playwright-report
-#          path: playwright-report/
-#          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
