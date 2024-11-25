@@ -1,4 +1,4 @@
-const {spawn} = require("node:child_process");
+import { spawnd } from "spawnd";
 
 const args = process.argv.filter((item) => !item.includes("/"));
 const projectName = args[0];
@@ -11,12 +11,12 @@ function shareRun(mode) {
 function runScripts(mode, projects) {
     let process;
     if (!args || !args.length) {
-        process = spawn("turbo", [mode, opts], {
+        process = spawnd("turbo", [mode, opts], {
             shell: true,
             stdio: "inherit"
         });
     } else {
-        process = spawn("turbo", [mode, projects, opts], {
+        process = spawnd("turbo", [mode, projects, opts], {
             shell: true,
             stdio: "inherit"
         });

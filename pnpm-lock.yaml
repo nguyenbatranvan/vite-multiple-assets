@@ -20,6 +20,9 @@ importers:
       playwright:
         specifier: ^1.49.0
         version: 1.49.0
+      spawnd:
+        specifier: ^10.1.4
+        version: 10.1.4
       turbo:
         specifier: ^2.3.1
         version: 2.3.1
@@ -4103,6 +4106,10 @@ packages:
 
   space-separated-tokens@2.0.2:
     resolution: {integrity: sha512-PEGlAwrG8yXGXRjW32fGbg66JAlOAwbObuqVoJpv/mRgoWDQfgH1wDPvtzWyUSNAXBGSk8h755YDbbcEy3SH2Q==}
+
+  spawnd@10.1.4:
+    resolution: {integrity: sha512-drqHc0mKJmtMsiGMOCwzlc5eZ0RPtRvT7tQAluW2A0qUc0G7TQ8KLcn3E6K5qzkLkH2UkS3nYQiVGULvvsD9dw==}
+    engines: {node: '>=16'}
 
   sprintf-js@1.0.3:
     resolution: {integrity: sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==}
@@ -9075,6 +9082,11 @@ snapshots:
       whatwg-url: 7.1.0
 
   space-separated-tokens@2.0.2: {}
+
+  spawnd@10.1.4:
+    dependencies:
+      signal-exit: 4.1.0
+      tree-kill: 1.2.2
 
   sprintf-js@1.0.3: {}
 
