@@ -1,0 +1,32 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"compilerOptions": {
+		"declaration": true,
+		"declarationMap": true,
+		"incremental": false,
+		"lib": ["es2022", "DOM", "DOM.Iterable"],
+		"moduleDetection": "force",
+		"noUncheckedIndexedAccess": true,
+		"useDefineForClassFields": true,
+		"allowImportingTsExtensions": true,
+		"jsx": "react-jsx",
+		"allowJs": true,
+		"strict": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": true,
+		"esModuleInterop": true,
+		"noImplicitAny": false,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"allowSyntheticDefaultImports": true,
+		"noFallthroughCasesInSwitch": true,
+		"experimentalDecorators": true,
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"emitDecoratorMetadata": true,
+		"skipLibCheck": true,
+		"target": "ESNext"
+	}
+}

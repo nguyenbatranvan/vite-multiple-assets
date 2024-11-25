@@ -4,15 +4,14 @@ import {join} from "path";
 import {TReturnGetFile} from "../types";
 
 interface IProps {
-    viteBase: string;
-    url: string;
-    file: TReturnGetFile
+	viteBase: string;
+	url: string;
+	file: TReturnGetFile;
 }
 
 export function handleMatchFileFromAssets(data: IProps) {
-    const {viteBase, url, file: file} = data;
-    const regex = new RegExp(`/?${viteBase}`);
-    const matchers = url.match(regex);
-    return !!(!matchers && file.mapper![replaceStartCharacter(url, '/')]);
-
+	const {viteBase, url, file} = data;
+	const regex = new RegExp(`/?${viteBase}`);
+	const matchers = url.match(regex);
+	return !!(!matchers && file.mapper![replaceStartCharacter(url, "/")]);
 }
