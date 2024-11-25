@@ -28,11 +28,11 @@ jobs:
       - run: pnpm run format
   build:
     name: run build lib
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
-      - run: npx turbo run build --filter=vite-multiple-assets
+      - run: pnpm run build vite-multiple-assets
       - uses: actions/upload-artifact@v4
         with:
           name: dist
