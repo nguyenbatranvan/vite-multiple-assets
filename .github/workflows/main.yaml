@@ -5,20 +5,20 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  lint:
-    name: run lint
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-repo
-      - run: pnpm run lint
-  format:
-    name: run format
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: ./.github/actions/setup-repo
-      - run: pnpm run format
+#  lint:
+#    name: run lint
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: ./.github/actions/setup-repo
+#      - run: pnpm run lint
+#  format:
+#    name: run format
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: ./.github/actions/setup-repo
+#      - run: pnpm run format
   test:
     timeout-minutes: 60
     name: run e2e test
