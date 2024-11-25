@@ -1,4 +1,4 @@
-import { spawnd } from "spawnd";
+const {spawnd} = require("spawnd");
 
 const args = process.argv.filter((item) => !item.includes("/"));
 const projectName = args[0];
@@ -12,13 +12,11 @@ function runScripts(mode, projects) {
     let process;
     if (!args || !args.length) {
         process = spawnd("turbo", [mode, opts], {
-            shell: true,
-            stdio: "inherit"
+            shell: true, stdio: "inherit"
         });
     } else {
         process = spawnd("turbo", [mode, projects, opts], {
-            shell: true,
-            stdio: "inherit"
+            shell: true, stdio: "inherit"
         });
     }
     process.on('error', (code) => {
