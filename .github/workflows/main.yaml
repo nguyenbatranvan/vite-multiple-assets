@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
-      - run: pnpm run build vite-multiple-assets
+      - run: npx turbo run build --filter=vite-multiple-assets
       - uses: actions/upload-artifact@v4
         with:
           name: dist
