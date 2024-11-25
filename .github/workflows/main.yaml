@@ -12,6 +12,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
       - run: pnpm run lint
+  typecheck:
+    name: run type check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-repo
+      - run: npx turbo run typecheck --filter=vite-multiple-assets
   format:
     name: run format
     runs-on: ubuntu-latest
