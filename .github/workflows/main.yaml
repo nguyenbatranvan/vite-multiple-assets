@@ -25,7 +25,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ windows-latest ]
+        os: [ ubuntu-latest, windows-latest ]
     steps:
       - uses: actions/checkout@v4
 
@@ -39,10 +39,12 @@ jobs:
 
       - name: Run Test load multiple assets by React App
         run: npx turbo run e2e --filter=react
-      #      - name: Run Test load multiple assets by Astro App
-      #        run: pnpm run e2e astro
-      #      - name: Run Test load multiple assets by Vue3 App
-      #        run: pnpm run e2e vue3
+
+      - name: Run Test load multiple assets by Astro App
+        run: npx turbo run e2e --filter=astro
+
+      - name: Run Test load multiple assets by Vue3 App
+        run: npx turbo run e2e --filter=vue3
       - uses: actions/upload-artifact@v4
         if: always()
         with:
