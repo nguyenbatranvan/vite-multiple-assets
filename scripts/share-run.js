@@ -1,4 +1,4 @@
-const spawn = require("node:child_process").spawn;
+const {spawn} = require("node:child_process").spawn;
 
 const args = process.argv.filter((item) => !item.includes("/"));
 const projectName = args[0];
@@ -11,12 +11,14 @@ function shareRun(mode) {
 function runScripts(mode, projects) {
     let process;
     if (!args || !args.length) {
-        process = spawn("turbo", [mode, opts], {
-            shell: true
+        process = spawn("npx turbo", [mode, opts], {
+            shell: true,
+            stdio: "inherit"
         });
     } else {
-        process = spawn("turbo", [mode, projects, opts], {
-            shell: true
+        process = spawn("npx turbo", [mode, projects, opts], {
+            shell: true,
+            stdio: "inherit"
         });
     }
     process.on('error', (code) => {
