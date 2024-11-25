@@ -7,7 +7,11 @@ on:
 jobs:
   test:
     timeout-minutes: 60
-    runs-on: ubuntu-latest
+    name: run e2e test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -16,10 +20,13 @@ jobs:
 
       - name: Install deps
         run: npm install --frozen-lockfile
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+
       - name: Build libs
         run: npm run publish
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
       - name: Run Test load multiple assets by React App
         run: npm run e2e-react
       - name: Run Test load multiple assets by Astro App

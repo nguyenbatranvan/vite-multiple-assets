@@ -1,5 +1,5 @@
 import fs from "fs";
-import type {ICacheConfig, IParameterViteServe, TValueMapper} from "./types";
+import {ICacheConfig, IParameterViteServe, TReturnGetFile, TValueMapper} from "./types";
 import mime from "mime-types";
 import http from "node:http";
 import type {IncomingMessage} from "http";
@@ -93,12 +93,12 @@ function handleRestartChangFolder(watchPaths: string[], server: ViteDevServer) {
 }
 
 
-export async function ServerMiddleWare(payload: IParameterViteServe) {
-    const {server, assets, options} = payload;
+export async function ServerMiddleWare(payload: IParameterViteServe & { data?: TReturnGetFile }) {
+    const {server, assets, options, data} = payload;
     const {mimeTypes: types = {}, ssr, cacheOptions = {}} = options || {}
     if (!assets || !assets.length)
         return;
-    const {mapper: fileObject, watchPaths} = await getFiles(assets, payload.options, payload.viteConfig);
+    const {mapper: fileObject, watchPaths} = data || await getFiles(assets, payload.options, payload.viteConfig);
     let mergeMimeTypes: Record<string, string | undefined> = {...mimeTypes, ...types}
     watchPaths?.length && handleRestartChangFolder(watchPaths, server);
     const base = replaceStartCharacter(payload.viteConfig?.base, '/');
