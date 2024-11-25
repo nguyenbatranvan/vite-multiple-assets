@@ -28,7 +28,7 @@ jobs:
       - run: pnpm run format
   build:
     name: run build lib
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
@@ -36,7 +36,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: dist
+          path: packages/libs/dist
   test:
     timeout-minutes: 60
     needs: [build]
@@ -52,7 +52,7 @@ jobs:
 
       - uses: actions/download-artifact@v4
         with:
-          path: dist
+          path: packages/libs/dist
           name: dist
 
       #      - name: Build lib vite multiple assets
