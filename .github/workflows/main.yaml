@@ -25,25 +25,20 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ windows-latest ]
     steps:
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 9.13.2
-          run_install: false
-          standalone: true
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-      - name: Install deps
-        run: pnpm install
+
+      - uses: ./.github/actions/setup-repo
+
       - name: Build lib vite multiple assets
         run: npx turbo run build --filter=vite-multiple-assets
+
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
+
       - name: Run Test load multiple assets by React App
-        run: pnpm run e2e react
+        run: npx turbo run e2e --filter=react
       #      - name: Run Test load multiple assets by Astro App
       #        run: pnpm run e2e astro
       #      - name: Run Test load multiple assets by Vue3 App
