@@ -37,13 +37,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [ 18.x, 20.x, 22.x ]
-        os: [ ubuntu-latest ]
-        include:
-          - node_version: 22.x
-            os: windows-latest
-      fail-fast: false
-      runs-on: ${{ matrix.os }}
+        os: [ windows-latest ]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
