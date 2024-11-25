@@ -4,8 +4,9 @@ import {AstroIntegration} from "./astroIntegration";
 import {buildMiddleWare, getFiles} from "./build";
 import {IAssets, IConfig, IViteResolvedConfig, TReturnGetFile} from "./types";
 import type {NormalizedOutputOptions} from "rollup";
-import {handleMatchFileFromAssets, replacePosixSep, replaceStartCharacter} from "./utils";
+import {replacePosixSep, replaceStartCharacter} from "./utils";
 import {join} from "path";
+import mm from "micromatch";
 
 let mapper: TReturnGetFile;
 let viteBase: string;
@@ -45,7 +46,9 @@ export default function DynamicPublicDirectory(assets: IAssets, opts: IConfig = 
     resolveInternalConfig({opts});
     return {
         async configureServer(server: ViteDevServer) {
-            return await ServerMiddleWare({server, assets, options: opts, viteConfig})
+            if (!mapper)
+                mapper = await getFiles(assets, opts, viteConfig);
+            return await ServerMiddleWare({server, assets, options: opts, viteConfig, data: mapper})
         },
         configResolved(config) {
             viteConfig = config;
@@ -60,21 +63,15 @@ export default function DynamicPublicDirectory(assets: IAssets, opts: IConfig = 
                 return null;
             }
             if (!mapper) {
-                viteBase = viteConfig.base;
                 mapper = await getFiles(assets, opts, viteConfig);
             }
+            viteBase = viteConfig.base;
             if (/\.(css|scss|sass|less|styl|stylus)$/.test(id)) {
                 return {
                     code: code.replace(/url\(["']?([^"')]+)["']?\)/g, (match, url) => {
-                        // const regex = new RegExp(`/?${viteBase}`);
-                        // const matchers = url.match(regex);
-                        // if (!matchers && mapper.mapper![replaceStartCharacter(url, '/')]) {
-                        //     return match.replace(url, replacePosixSep(join('/', viteBase, url)));
-                        // }
-                        if (handleMatchFileFromAssets({
-                            viteBase, file: mapper, url
-                        })) {
-                            return match.replace(url, replacePosixSep(join('/', viteBase, url)))
+                        if (!mm.isMatch(url, `${viteBase}**`) &&
+                            mapper.mapper![replaceStartCharacter(url, "/")]) {
+                            return match.replace(url, replacePosixSep(join(viteBase, url)))
                         }
                         return match
                     })
