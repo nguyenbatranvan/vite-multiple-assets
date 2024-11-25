@@ -5,37 +5,34 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-    lint:
-      name: run lint
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: ./.github/actions/setup-repo
-        - run: pnpm run lint
-    format:
-      name: run format
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
-        - uses: ./.github/actions/setup-repo
-        - run: pnpm run format
+  lint:
+    name: run lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-repo
+      - run: pnpm run lint
+  format:
+    name: run format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-repo
+      - run: pnpm run format
   test:
     timeout-minutes: 60
     name: run e2e test
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [ windows-latest ]
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
-
       - name: Build lib vite multiple assets
         run: pnpm run build vite-multiple-assets
-
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
-
       - name: Run Test load multiple assets by React App
         run: pnpm run e2e react
       #      - name: Run Test load multiple assets by Astro App
