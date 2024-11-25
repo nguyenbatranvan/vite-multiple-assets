@@ -11,12 +11,12 @@ function shareRun(mode) {
 function runScripts(mode, projects) {
     let process;
     if (!args || !args.length) {
-        process = spawn("npx turbo", [mode, opts], {
+        process = spawn("npx turbo run", [mode, opts], {
             shell: true,
             stdio: "inherit"
         });
     } else {
-        process = spawn("npx turbo", [mode, projects, opts], {
+        process = spawn("npx turbo run", [mode, projects, opts], {
             shell: true,
             stdio: "inherit"
         });
