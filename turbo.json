@@ -16,6 +16,7 @@
     "format": {},
     "reformat": {},
     "build-npm": {},
+    "typecheck": {},
     "local": {},
     "dev": {
       "dependsOn": [

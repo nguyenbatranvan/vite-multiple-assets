@@ -39,7 +39,7 @@
 		"lint": "pnpm biome lint --error-on-warnings ./src",
 		"format": "pnpm biome format --error-on-warnings ./src",
 		"reformat": "pnpm format --write ./src",
-		"typecheck": "tsc"
+		"typecheck": "tsc --noEmit"
 	},
 	"keywords": [
 		"vite-multiple-assets",
