@@ -5,20 +5,20 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-#  lint:
-#    name: run lint
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: ./.github/actions/setup-repo
-#      - run: pnpm run lint
-#  format:
-#    name: run format
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: ./.github/actions/setup-repo
-#      - run: pnpm run format
+  lint:
+    name: run lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-repo
+      - run: pnpm run lint
+  format:
+    name: run format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-repo
+      - run: pnpm run format
   test:
     timeout-minutes: 60
     name: run e2e test
@@ -35,10 +35,10 @@ jobs:
         run: pnpm run build vite-multiple-assets
       - name: Run Test load multiple assets by React App
         run: pnpm run e2e react
-#      - name: Run Test load multiple assets by Astro App
-#        run: pnpm run e2e astro
-#      - name: Run Test load multiple assets by Vue3 App
-#        run: pnpm run e2e vue3
+      - name: Run Test load multiple assets by Astro App
+        run: pnpm run e2e astro
+      - name: Run Test load multiple assets by Vue3 App
+        run: pnpm run e2e vue3
       - uses: actions/upload-artifact@v4
         if: always()
         with:
