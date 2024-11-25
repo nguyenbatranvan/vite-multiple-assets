@@ -1,4 +1,4 @@
-const {spawn} = require("node:child_process").spawn;
+const spawn = require("node:child_process").spawn;
 
 const args = process.argv.filter((item) => !item.includes("/"));
 const projectName = args[0];
