@@ -32,17 +32,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
-      - name: Cache playwright binaries
-        uses: actions/cache@v3
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "::set-output name=version::$(yarn why --json @playwright/test | grep -h 'workspace:.' | jq --raw-output '.children[].locator' | sed -e 's/@playwright\/test@.*://')"
+      - uses: actions/cache@v3
         id: playwright-cache
         with:
-          path: |
-            ~/Library/Caches/ms-playwright
-            **/node_modules/playwright
-          key: cache-playwright-macos
-      - name: Install Playwright Browsers
+          path: '~/.cache/ms-playwright'
+          key: '${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}'
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+      - name: Install Playwright's dependencies
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps
+
   build:
     name: run build lib
     runs-on: ubuntu-latest
