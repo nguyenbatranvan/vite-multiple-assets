@@ -15,6 +15,7 @@
     "lint": "node scripts/run-lint.js",
     "format": "node scripts/run-format.js",
     "reformat": "node scripts/run-reformat.js",
+    "all-check": "pnpm lint && pnpm format && npx turbo typecheck --filter=vite-multiple-assets",
     "local": "act -P ubuntu-latest=-self-hosted"
   },
   "devDependencies": {
