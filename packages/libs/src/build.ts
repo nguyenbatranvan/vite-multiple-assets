@@ -17,7 +17,6 @@ import {
 	checkIsFolder,
 	replacePosixSep,
 	copyWithResolvedSymlinks,
-	findSymlinks,
 	checkSymLink,
 	readSymlink
 } from "./utils";
@@ -101,16 +100,13 @@ function transformFiles(data: IAssets, opts?: IConfig) {
 			});
 		} else {
 			const {watch, input} = item;
-			watch &&
-				watchPaths.push(
-					resolve(
-						cwd!,
-						fg.sync(input.replace("**", ""), {
-							onlyFiles: false,
-							followSymbolicLinks: true
-						})[0]
-					)
-				);
+			if (watch) {
+				const path = handleWatchPath(input);
+				path && watchPaths.push(resolve(
+					cwd!,
+					path
+				));
+			}
 			__files.push(input);
 			__data.push(item);
 		}
@@ -122,6 +118,12 @@ function transformFiles(data: IAssets, opts?: IConfig) {
 	};
 }
 
+function handleWatchPath(path: string) {
+	return fg.sync(path.replace("**", ""), {
+		onlyFiles: false,
+		followSymbolicLinks: true
+	})[0];
+}
 export async function getFiles(
 	files_: IAssets = [],
 	opts: IConfig = {},
