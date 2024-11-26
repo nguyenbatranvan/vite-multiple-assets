@@ -28,7 +28,7 @@ jobs:
       - run: pnpm run format
   build:
     name: run build lib
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-repo
@@ -39,7 +39,7 @@ jobs:
           path: packages/libs/dist
   test:
     timeout-minutes: 60
-    needs: [build]
+    needs: [ build ]
     name: run e2e test
     runs-on: ${{ matrix.os }}
     strategy:
@@ -49,17 +49,27 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-repo
-
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$(node -e "console.log(require('./package-lock.json').dependencies['@playwright/test'].version)")" >> $GITHUB_ENV
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
       - uses: actions/download-artifact@v4
         with:
           path: packages/libs/dist
           name: dist
 
       #      - name: Build lib vite multiple assets
-#        run: npx turbo run build --filter=vite-multiple-assets
+      #        run: npx turbo run build --filter=vite-multiple-assets
 
       - name: Install Playwright Browsers
         run: pnpm exec playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       - name: Run Test load multiple assets by React App
         run: npx turbo run e2e --filter=react
