@@ -4,7 +4,7 @@ import {AstroIntegration} from "./astroIntegration";
 import {buildMiddleWare, getFiles} from "./build";
 import {IAssets, IConfig, IViteResolvedConfig, TReturnGetFile} from "./types";
 import type {NormalizedOutputOptions} from "rollup";
-import {replacePosixSep, replaceStartCharacter} from "./utils";
+import {replacePosixSep, replaceStartCharacter, transformCssUrl} from "./utils";
 import {join} from "path";
 import mm from "micromatch";
 
@@ -62,8 +62,7 @@ export default function DynamicPublicDirectory(
 				server,
 				assets,
 				options: opts,
-				viteConfig,
-				data: mapper
+				viteConfig
 			});
 		},
 		configResolved(config) {
@@ -82,20 +81,12 @@ export default function DynamicPublicDirectory(
 				mapper = await getFiles(assets, opts, viteConfig);
 			}
 			viteBase = viteConfig.base;
-			if (/\.(css|scss|sass|less|styl|stylus)$/.test(id)) {
-				return {
-					code: code.replace(/url\(["']?([^"')]+)["']?\)/g, (match, url) => {
-						if (
-							!mm.isMatch(url, `${viteBase}**`) &&
-							mapper.mapper![replaceStartCharacter(url, "/")]
-						) {
-							return match.replace(url, replacePosixSep(join(viteBase, url)));
-						}
-						return match;
-					})
-				};
-			}
-			return null;
+			return transformCssUrl({
+				mapper,
+				id,
+				code,
+				viteBase
+			});
 		},
 		name: "dynamic assets"
 	};

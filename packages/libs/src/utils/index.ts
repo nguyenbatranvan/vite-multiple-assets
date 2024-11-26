@@ -10,3 +10,4 @@ export {
 } from "./copyWithResolvedSymlinks";
 export {replaceStartCharacter, removeViteBase} from "./viteBase";
 export {handleMatchFileFromAssets} from "./handleMatchFileFromAssets";
+export {transformCssUrl} from "./transformCssUrl";

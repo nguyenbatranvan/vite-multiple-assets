@@ -38,7 +38,8 @@
 		"prepublishOnly": "pnpm run build",
 		"lint": "pnpm biome lint --error-on-warnings ./src",
 		"format": "pnpm biome format --error-on-warnings ./src",
-		"reformat": "pnpm format --write ./src"
+		"reformat": "pnpm format --write ./src",
+		"typecheck": "tsc --noEmit"
 	},
 	"keywords": [
 		"vite-multiple-assets",
