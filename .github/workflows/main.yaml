@@ -58,21 +58,8 @@ jobs:
         with:
           path: packages/libs/dist
           name: dist
-      - name: Get installed Playwright version
-        id: playwright-version
-        run: echo "::set-output name=version::$(yarn why --json @playwright/test | grep -h 'workspace:.' | jq --raw-output '.children[].locator' | sed -e 's/@playwright\/test@.*://')"
-      - uses: actions/cache@v3
-        id: playwright-cache
-        with:
-          path: '~/.cache/ms-playwright'
-          key: '${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}'
-          restore-keys: |
-            ${{ runner.os }}-playwright-
 
-      #      - name: Build lib vite multiple assets
-      #        run: npx turbo run build --filter=vite-multiple-assets
       - name: Install Playwright's dependencies
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps
 
       - name: Run Test load multiple assets by React App
