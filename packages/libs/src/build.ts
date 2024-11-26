@@ -102,10 +102,7 @@ function transformFiles(data: IAssets, opts?: IConfig) {
 			const {watch, input} = item;
 			if (watch) {
 				const path = handleWatchPath(input);
-				path && watchPaths.push(resolve(
-					cwd!,
-					path
-				));
+				path && watchPaths.push(resolve(cwd!, path));
 			}
 			__files.push(input);
 			__data.push(item);
