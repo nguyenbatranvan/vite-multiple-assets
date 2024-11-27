@@ -4,6 +4,7 @@
   "license": "MIT",
   "private": false,
   "sideEffects": false,
+  "main": "./packages/libs/dist/index.js",
   "scripts": {
     "dev": "node scripts/run-dev.js",
     "e2e": "node scripts/run-e2e.js",
@@ -17,6 +18,12 @@
     "reformat": "node scripts/run-reformat.js",
     "all-check": "pnpm lint && pnpm format && npx turbo typecheck --filter=vite-multiple-assets",
     "local": "act -P ubuntu-latest=-self-hosted"
+  },
+  "homepage": "https://nguyenbatranvan.github.io/vite-multiple-assets-doc/",
+  "bugs": "https://github.com/nguyenbatranvan/vite-multiple-assets/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nguyenbatranvan/vite-multiple-assets"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",

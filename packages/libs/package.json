@@ -6,9 +6,12 @@
 	"license": "MIT",
 	"private": false,
 	"sideEffects": false,
+	"homepage": "https://nguyenbatranvan.github.io/vite-multiple-assets-doc/",
+	"bugs": "https://github.com/nguyenbatranvan/vite-multiple-assets/issues",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/nguyenbatranvan/vite-multiple-assets"
+		"url": "https://github.com/nguyenbatranvan/vite-multiple-assets",
+		"directory": "packages/libs"
 	},
 	"files": ["dist"],
 	"main": "dist/index.js",
