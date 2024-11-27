@@ -1,6 +1,6 @@
 {
   "name": "assets",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "private": false,
   "sideEffects": false,
@@ -23,8 +23,7 @@
     "@playwright/test": "^1.49.0",
     "@types/node": "^20.17.8",
     "playwright": "^1.49.0",
-    "spawnd": "^10.1.4",
-    "turbo": "^2.3.2",
+    "turbo": "^2.3.3",
     "typescript": "^5.7.2",
     "vite": "^5.4.11"
   },
