@@ -57,7 +57,6 @@ export default function DynamicPublicDirectory(
 	resolveInternalConfig({opts});
 	return {
 		async configureServer(server: ViteDevServer) {
-			if (!mapper) mapper = await getFiles(assets, opts, viteConfig);
 			return await ServerMiddleWare({
 				server,
 				assets,
@@ -78,9 +77,9 @@ export default function DynamicPublicDirectory(
 				return null;
 			}
 			if (!mapper) {
+				viteBase = viteConfig.base;
 				mapper = await getFiles(assets, opts, viteConfig);
 			}
-			viteBase = viteConfig.base;
 			return transformCssUrl({
 				mapper,
 				id,
