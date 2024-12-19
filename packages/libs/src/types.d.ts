@@ -113,9 +113,3 @@ export type IViteConfig = Exclude<
 export type IViteResolvedConfig1 = NonNullable<IViteConfig["configResolved"]>;
 // @ts-ignore
 export type IViteResolvedConfig = Parameters<IViteResolvedConfig1>[0];
-
-export interface IParameterViteServe {
-	server: ViteDevServer;
-	assets: string[];
-	options?: IConfig;
-}
