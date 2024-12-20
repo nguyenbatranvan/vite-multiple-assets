@@ -1,6 +1,6 @@
 {
 	"name": "vite-multiple-assets",
-	"version": "2.2.4",
+	"version": "2.2.5",
 	"description": "Multiple public asset directories for vite",
 	"author": "Van nguyen ba tran",
 	"license": "MIT",
@@ -61,7 +61,6 @@
 		"@types/node": "^22.8.1",
 		"tsup": "^8.3.5",
 		"typescript": "^5.6.3",
-		"rollup": "^4.27.3",
 		"biome-config": "workspace:*"
 	},
 	"peerDependencies": {
@@ -69,6 +68,7 @@
 		"vite": ">=2.9.6"
 	},
 	"dependencies": {
+		"rollup": "^4.27.3",
 		"watchpack": "^2.4.2",
 		"fast-glob": "^3.3.2",
 		"micromatch": "^4.0.7"
