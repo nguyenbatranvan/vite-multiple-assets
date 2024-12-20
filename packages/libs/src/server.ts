@@ -82,7 +82,6 @@ function handleRestartChangFolder(watchPaths: string[], server: ViteDevServer) {
 		server.restart();
 	});
 
-
 	wp.on("remove", () => {
 		server.restart();
 	});
