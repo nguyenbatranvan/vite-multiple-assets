@@ -69,12 +69,11 @@ function handleWriteToServe(
 		res.end();
 	}
 }
-
+const wp = new Watchpack({
+	aggregateTimeout: 1000,
+	followSymlinks: true
+});
 function handleRestartChangFolder(watchPaths: string[], server: ViteDevServer) {
-	const wp = new Watchpack({
-		aggregateTimeout: 10,
-		followSymlinks: true
-	});
 	wp.watch({
 		directories: watchPaths,
 		startTime: Date.now() - 10000
@@ -82,6 +81,7 @@ function handleRestartChangFolder(watchPaths: string[], server: ViteDevServer) {
 	wp.on("change", () => {
 		server.restart();
 	});
+
 
 	wp.on("remove", () => {
 		server.restart();
@@ -111,6 +111,7 @@ export async function ServerMiddleWare(
 		...mimeTypes,
 		...types
 	};
+	wp.close();
 	watchPaths?.length && handleRestartChangFolder(watchPaths, server);
 	const base = replaceStartCharacter(payload.viteConfig?.base, "/");
 	return () => {
