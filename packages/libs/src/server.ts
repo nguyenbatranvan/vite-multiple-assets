@@ -62,8 +62,8 @@ function parseRange(
 	const match = rangeHeader.match(/bytes=(\d*)-(\d*)/);
 	if (!match) return null;
 
-	const start = match[1] ? parseInt(match[1], 10) : 0;
-	const end = match[2] ? parseInt(match[2], 10) : fileSize - 1;
+	const start = match[1] ? Number.parseInt(match[1], 10) : 0;
+	const end = match[2] ? Number.parseInt(match[2], 10) : fileSize - 1;
 
 	// Validate range
 	if (start >= fileSize || end >= fileSize || start > end) {
