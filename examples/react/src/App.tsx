@@ -1,11 +1,13 @@
 import './App.css'
 import {Code, Grid} from "@mantine/core";
 import {CardImage} from "./CardImage.tsx";
+import {VideoAssets} from "./video-assets.tsx";
 
 function App() {
     return (
         <>
             <Grid>
+                <VideoAssets/>
                 <CardImage col={{span:12}} titleCard={"Background image css"} images={[]}>
                     <div style={{height:100,width:100,position:'relative'}}>
 
