@@ -49,6 +49,30 @@ function getContentType(file: string) {
 	return mime.lookup(file);
 }
 
+/**
+ * Parse Range header from request
+ * Returns { start, end } or null if no valid range
+ */
+function parseRange(
+	rangeHeader: string | undefined,
+	fileSize: number
+): {start: number; end: number} | null {
+	if (!rangeHeader) return null;
+
+	const match = rangeHeader.match(/bytes=(\d*)-(\d*)/);
+	if (!match) return null;
+
+	const start = match[1] ? Number.parseInt(match[1], 10) : 0;
+	const end = match[2] ? Number.parseInt(match[2], 10) : fileSize - 1;
+
+	// Validate range
+	if (start >= fileSize || end >= fileSize || start > end) {
+		return null;
+	}
+
+	return {start, end};
+}
+
 function handleWriteToServe(
 	res: http.ServerResponse,
 	req: IncomingMessage,
@@ -57,14 +81,57 @@ function handleWriteToServe(
 	cacheOption: ICacheConfig = {}
 ) {
 	try {
+		// Get file stats for size
+		const stats = fs.statSync(path);
+		const fileSize = stats.size;
+
+		// Parse Range header
+		const rangeHeader = req.headers.range;
+		const range = parseRange(rangeHeader, fileSize);
+
+		// Set cache options
 		for (const key in cacheOption) {
 			res.setHeader(key, cacheOption[key]);
 		}
-		// res.setHeader("Cache-Control", "max-age=31536000, immutable");
+
+		// Always set Accept-Ranges header to indicate range support
+		res.setHeader("Accept-Ranges", "bytes");
 		res.setHeader("Content-Type", contentType);
-		res.write(fs.readFileSync(path));
-		res.end();
+
+		if (range) {
+			// Handle range request (for video seeking)
+			const {start, end} = range;
+			const contentLength = end - start + 1;
+
+			// Set 206 Partial Content status
+			res.statusCode = 206;
+			res.setHeader("Content-Range", `bytes ${start}-${end}/${fileSize}`);
+			res.setHeader("Content-Length", contentLength);
+
+			// Read and send only the requested range
+			const fileStream = fs.createReadStream(path, {start, end});
+			fileStream.pipe(res);
+
+			fileStream.on("error", (err) => {
+				console.error("Error streaming file:", err);
+				res.end();
+			});
+		} else {
+			// Handle normal request (no range)
+			res.statusCode = 200;
+			res.setHeader("Content-Length", fileSize);
+			// Stream the entire file
+			const fileStream = fs.createReadStream(path);
+			fileStream.pipe(res);
+
+			fileStream.on("error", (err) => {
+				console.error("Error streaming file:", err);
+				res.end();
+			});
+		}
 	} catch (e) {
+		console.error("Error in handleWriteToServe:", e);
+		res.statusCode = 500;
 		res.write("");
 		res.end();
 	}

@@ -9,7 +9,7 @@ export default defineConfig({
     },
     build: {
         rollupOptions: {
-            external:['.png'],
+            external: ['.png'],
             output: {
                 chunkFileNames: 'assets/js/[name]-[hash].js',
                 entryFileNames: 'assets/js/[name]-[hash].js',
@@ -42,6 +42,7 @@ export default defineConfig({
                 input: "public/**",
                 output: "/images/assets-a"
             },
+            "videos/**",
             {
                 input: "../../shared-assets/**",
                 output: "shared/images",
